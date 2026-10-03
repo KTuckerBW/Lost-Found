@@ -63,10 +63,10 @@ public class LoginUI extends JFrame {
         titleLabel = new JLabel("Login to Lst&Fnd!");
 
         usernameLabel = new JLabel("Username: ");
-        usernameField = new JTextField(15); // spans 15 columns wide
+        usernameField = new JTextField(25); // spans 15 columns wide
 
         passwordLabel = new JLabel("Password: ");
-        passwordField = new JPasswordField(15);
+        passwordField = new JPasswordField(25);
 
         login = new JButton("Log In");
         login.addActionListener(new LoginButtonListener());
