@@ -1,22 +1,25 @@
 package src.model;
 
+import java.util.Map;
+
 public class User {
-    private final long id;
+    private final String role;
     private final String username;
     private final String password;
     private final String email;
-    private final String role;
 
-    public User(long id, String username, String password, String email, String role) {
-        this.id = id;
+    public User(String role, String username, String password, String email) {
+        this.role = role;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
 
-    public long getId() {
-        return id;
+    public User(Map<String, String> data){
+        this.role = data.get("Role");
+        this.username = data.get("Username");
+        this.password = data.get("Password");
+        this.email = data.get("Email");
     }
 
     public String getUsername() {

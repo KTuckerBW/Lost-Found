@@ -1,5 +1,8 @@
 package src;
 
+import src.auth.AuthService;
+import src.auth.FileAuthService;
+import src.model.User;
 import src.ui.LoginUI;
 
 import javax.swing.*;
@@ -18,6 +21,15 @@ public class Main {
         defaultUI.put("ComboBox.font", myFont);
         defaultUI.put("TextArea.font", myFont);
 
-        SwingUtilities.invokeLater(LoginUI::new);
+        //        SwingUtilities.invokeLater(LoginUI::new);
+
+        // test FileAuthService
+        AuthService authService = new FileAuthService("./data/UserAccounts.csv");
+        User user = authService.authenticate("michael", "dontleavemehere");
+
+        System.out.println(user.getRole());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getEmail());
     }
 }
