@@ -144,18 +144,4 @@ public class LoginUI extends JFrame implements ActionListener {
         timer.setRepeats(false);
         timer.start();
     }
-
-//    /*
-//     * Handles login attempts and updates the feedback banner.
-//     */
-//    private class LoginButtonListener {
-//        private AuthService authService;
-//
-//        public void actionPerformed(ActionEvent e) {
-//
-//        }
-
-
-//    }
-
 }

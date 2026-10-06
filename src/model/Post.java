@@ -46,5 +46,90 @@ public class Post {
         this.location = (String) row.get("Location");
     }
 
+    // Modified constructor from Bradley's user.java
+    public static Post of(
+            String status,
+            String dateOfListing,
+            String desc,
+            String category,
+            String name,
+            String expirationDate,
+            String userID,
+            int productID,
+            String photo,
+            String valueStatus,
+            String location)
+    {
+        return new Post(
+                status,
+                dateOfListing,
+                desc,
+                category,
+                name,
+                expirationDate,
+                userID,
+                productID,
+                photo,
+                valueStatus,
+                location);
+    }
+
+    // Modified static constructor
+    public static Post fromRow(Map<String, Object> row) {
+        return new Post(row);
+    }
+
+    // accessor methods
+    public String getStatus(){
+        return status;
+    }
+    public String getDateOfListing(){
+        return dateOfListing;
+    }
+    public String getDesc(){
+        return desc;
+    }
+    public String getCategory(){
+        return category;
+    }
+    public String getName(){
+        return name;
+    }
+    public String getExpirationDate(){
+        return expirationDate;
+    }
+    public String getUserID(){
+        return userID;
+    }
+    public int getProductID(){
+        return productID;
+    }
+    public String getPhoto(){
+        return photo;
+    }
+    public String getValueStatus(){
+        return valueStatus;
+    }
+    public String getLocation(){
+        return location;
+    }
+
+    // Override the toString function so I can read this data
+    @Override
+    public String toString() {
+        return "Post{" +
+                "status='" + status + '\'' +
+                ", dateOfListing='" + dateOfListing + '\'' +
+                ", desc='" + desc + '\'' +
+                ", category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", userID='" + userID + '\'' +
+                ", productID=" + productID +
+                ", photo='" + photo + '\'' +
+                ", valueStatus='" + valueStatus + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 
 }
