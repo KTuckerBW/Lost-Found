@@ -4,7 +4,7 @@ package src.ui; /**
  * Login screen without database functionality. Enter button doesn't work.
  */
 
-import src.auth.AuthService;
+import src.auth.UserAuthenticator;
 import src.model.User;
 
 import javax.swing.*;
@@ -20,10 +20,10 @@ public class LoginUI extends JFrame implements ActionListener {
     private JLabel titleLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private AuthService authService;
+    private UserAuthenticator userAuthenticator;
 
-    public LoginUI(AuthService authService) {
-        this.authService = authService;
+    public LoginUI(UserAuthenticator userAuthenticator) {
+        this.userAuthenticator = userAuthenticator;
         setTitle("Lst&Fnd");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -107,7 +107,7 @@ public class LoginUI extends JFrame implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = this.authService.authenticate(username, typedPassword);
+        User user = this.userAuthenticator.authenticate(username, typedPassword);
         if (user != null) {
             // Open a new window and close this one (WIP FEATURE)
 

@@ -9,7 +9,7 @@ import src.model.User;
  * <p>Callers only see the methods below and not how they're implemented.
  * </p>
  */
-public interface AuthService {
+public interface UserAuthenticator {
         /**
          * Authenticates a user by username and password.
          *
@@ -17,5 +17,5 @@ public interface AuthService {
          * @param password the secret credential
          * @return the authenticated {@link User}, or {@code null} if credentials are invalid
          */
-        public User authenticate(String username, String password);
+        User authenticate(String username, String password);
 }

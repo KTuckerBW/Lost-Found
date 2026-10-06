@@ -1,8 +1,7 @@
 package src;
 
-import src.auth.AuthService;
-import src.auth.FileAuthService;
-import src.model.User;
+import src.auth.UserAuthenticator;
+import src.auth.CsvUserAuthenticator;
 import src.ui.LoginUI;
 
 import javax.swing.*;
@@ -14,15 +13,10 @@ public class Main {
      * while you are waiting for your GUI to build. Idk if Dr. Kumari prefers this or new LoginUIClean();
      */
     public static void main(String[] args) {
-
         setFont();
 
-        AuthService authService = new FileAuthService("./data/UserAccounts.csv");
-        SwingUtilities.invokeLater(() -> new LoginUI(authService));
-
-//        SwingUtilities.invokeLater(LoginUI::new);
-
-        User user = authService.authenticate("michael", "dontleavemehere");
+        UserAuthenticator userAuthenticator = new CsvUserAuthenticator("./data/UserAccounts.csv");
+        SwingUtilities.invokeLater(() -> new LoginUI(userAuthenticator));
     }
 
     // Set font to something more readable
