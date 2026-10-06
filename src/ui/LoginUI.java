@@ -113,6 +113,7 @@ public class LoginUI extends JFrame implements ActionListener {
 
             // But for now just display a success window
             feedbackLabel.setText("Login successful! :)");
+            // this is where my BrowseListings page windows should open up
             feedbackLabel.setBackground(Color.GREEN);
 
             usernameField.setText("");
