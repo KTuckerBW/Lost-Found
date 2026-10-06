@@ -1,9 +1,9 @@
-package src.ui; /**
+/**
  * Kaitlyn Tucker
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
-
+package src.ui;
 import src.auth.UserAuthenticator;
 import src.model.User;
 
