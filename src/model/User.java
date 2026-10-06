@@ -8,18 +8,39 @@ public class User {
     private final String password;
     private final String email;
 
-    public User(String role, String username, String password, String email) {
+    private User(
+            String role,
+            String username,
+            String password,
+            String email) {
+
         this.role = role;
         this.username = username;
         this.password = password;
         this.email = email;
     }
 
-    public User(Map<String, String> data){
-        this.role = data.get("Role");
-        this.username = data.get("Username");
-        this.password = data.get("Password");
-        this.email = data.get("Email");
+    private User(Map<String, String> row) {
+        this.role = row.get("Role");
+        this.username = row.get("Username");
+        this.password = row.get("Password");
+        this.email = row.get("Email");
+    }
+
+    // Static factory method
+    public static User of(
+            String role,
+            String username,
+            String password,
+            String email) {
+
+        return new User(role, username, password, email);
+
+    }
+
+    // Static factory method
+    public static User fromRow(Map<String, String> row) {
+        return new User(row);
     }
 
     public String getUsername() {

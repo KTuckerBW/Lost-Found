@@ -22,7 +22,7 @@ public class FileAuthService implements AuthService {
         records = getRecords();
         for(Map<String, String> row: records){
             if(username.equals(row.get("Username")) && password.equals(row.get("Password"))){
-                return new User(row);
+                return User.fromRow(row);
             }
         }
 
