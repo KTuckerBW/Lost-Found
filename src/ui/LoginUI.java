@@ -1,14 +1,17 @@
-/**
+package src.ui; /**
  * Kaitlyn Tucker
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
 
+import src.auth.UserAuthenticator;
+import src.model.User;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class LoginUI extends JFrame {
+public class LoginUI extends JFrame implements ActionListener {
     private JButton login;
     private JPanel panel; // the panel will hold all the components
     private JLabel usernameLabel;
@@ -17,8 +20,10 @@ public class LoginUI extends JFrame {
     private JLabel titleLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private UserAuthenticator userAuthenticator;
 
-    public LoginUI() {
+    public LoginUI(UserAuthenticator userAuthenticator) {
+        this.userAuthenticator = userAuthenticator;
         setTitle("Lst&Fnd");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,7 +74,7 @@ public class LoginUI extends JFrame {
         passwordField = new JPasswordField(25);
 
         login = new JButton("Log In");
-        login.addActionListener(new LoginButtonListener());
+        login.addActionListener(this);
 
         // Start with a blank label that is visible but the bg is not opaque so the user can't see it
         // It still reserves space so that the window wont resize when the banner appears and disappears
@@ -93,66 +98,64 @@ public class LoginUI extends JFrame {
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+
+        // grab the password. But since it's swings password field it returns as an array of chars
+        // we automatically convert it to a string to test
+        String typedPassword = new String(passwordField.getPassword());
+
+        // Authenticate users regardless of the data origin: file or database
+        User user = this.userAuthenticator.authenticate(username, typedPassword);
+        if (user != null) {
+            // Open a new window and close this one (WIP FEATURE)
+
+            // But for now just display a success window
+            feedbackLabel.setText("Login successful! :)");
+            feedbackLabel.setBackground(Color.GREEN);
+
+            usernameField.setText("");
+        } else {
+            // Alert the user of their mistake
+            feedbackLabel.setText("Username or password is incorrect!");
+            feedbackLabel.setBackground(Color.RED);
+        }
+
+        // overwrite sensitive data and expose the banner
+        typedPassword = "";
+        feedbackLabel.setOpaque(true);
+        feedbackTimer();
+
+        // Keep the username after a failed attempt, clear the password
+        passwordField.setText("");
+    }
+
     /*
-     * Handles login attempts and updates the feedback banner.
+     * Helper method to hide the feedback banner after three seconds
      */
-    private class LoginButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String username = usernameField.getText();
-
-            // grab the password. But since it's swings password field it returns as an array of chars
-            // we automatically convert it to a string to test
-            String typedPassword = new String(passwordField.getPassword());
-
-            // Test credentials
-            if (username.equals("admin") && typedPassword.equals("password1234")) {
-                // Open a new window and close this one (WIP FEATURE)
-
-                // But for now just display a success window
-                feedbackLabel.setText("Login successful! :)");
-                feedbackLabel.setBackground(Color.GREEN);
-
-                usernameField.setText("");
-            } else {
-                // Alert the user of their mistake
-                feedbackLabel.setText("Username or password is incorrect!");
-                feedbackLabel.setBackground(Color.RED);
+    private void feedbackTimer() {
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent timerEvent) {
+                feedbackLabel.setText(" ");
+                feedbackLabel.setOpaque(false);
             }
-            // overwrite sensitive data and expose the banner
-            typedPassword = "";
-            feedbackLabel.setOpaque(true);
-            feedbackTimer();
-
-            // Keep the username after a failed attempt, clear the password
-            passwordField.setText("");
-        }
-
-        /*
-         * Helper method to hide the feedback banner after three seconds
-         */
-        private void feedbackTimer() {
-            Timer timer = new Timer(3000, new ActionListener() {
-                public void actionPerformed(ActionEvent timerEvent) {
-                    feedbackLabel.setText(" ");
-                    feedbackLabel.setOpaque(false);
-                }
-            });
-            timer.setRepeats(false);
-            timer.start();
-        }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
-    /*
-     * Swing is not thread safe. Oracle suggests using invokeLater because it wont block your main thread
-     * while you are waiting for your GUI to build. Idk if Dr. Kumari prefers this or new LoginUIClean();
-     */
-    public static void main(String[] args) {
-        Font myFont = new Font("Tahoma", Font.PLAIN, 20);
-        UIDefaults defaultUI = UIManager.getDefaults();
-        defaultUI.put("Button.font", myFont);
-        defaultUI.put("Label.font", myFont);
-        defaultUI.put("ComboBox.font", myFont);
-        defaultUI.put("TextArea.font", myFont);
-        SwingUtilities.invokeLater(LoginUI::new);
-    }
+//    /*
+//     * Handles login attempts and updates the feedback banner.
+//     */
+//    private class LoginButtonListener {
+//        private AuthService authService;
+//
+//        public void actionPerformed(ActionEvent e) {
+//
+//        }
+
+
+//    }
+
 }
