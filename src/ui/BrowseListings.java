@@ -1,3 +1,6 @@
+// Nina Aubourg
+// Comp 390
+// Browse listings page where users can browse their lost and found items
 package src.ui;
 
 import javax.swing.*;

@@ -3,7 +3,7 @@ package src.ui; /**
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
-
+import src.ui.BrowseListings;
 import src.auth.UserAuthenticator;
 import src.model.User;
 
@@ -114,9 +114,11 @@ public class LoginUI extends JFrame implements ActionListener {
             // But for now just display a success window
             feedbackLabel.setText("Login successful! :)");
             // this is where my BrowseListings page windows should open up
+            BrowseListings.main(new String[]{}); // JUST CHANGED: (NINA) Redirects the user to the Browse Listings page after successful authentication
             feedbackLabel.setBackground(Color.GREEN);
 
             usernameField.setText("");
+
         } else {
             // Alert the user of their mistake
             feedbackLabel.setText("Username or password is incorrect!");
