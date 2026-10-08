@@ -26,6 +26,7 @@ public class PostComponent extends JPanel {
         // Initialization
         JLabel nameLabel = new JLabel(post.getName());
         JLabel locationLabel = new JLabel(post.getLocation());
+        JLabel categoryLabel = new JLabel(post.getCategory());
 
         // Since the class itself expands JPanel, we can call JPanel methods directly
         // to build the main panel holding all the different parts of a post card
@@ -44,9 +45,10 @@ public class PostComponent extends JPanel {
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true); // It wont wrap lines in the middle of words
         descriptionArea.setOpaque(false);
-        descriptionArea.setBorder(null);
+        descriptionArea.setBorder(BorderFactory.createEmptyBorder());
         descriptionArea.setColumns(16); // Forces a minimum width but not a minimum length to look prettier
         descriptionArea.setText(shorten(description, previewLength)); // preview desc
+
 
         // assign fonts, name is meant to be more noticeable
         nameLabel.setFont(myFont.deriveFont(Font.BOLD, 16f));
@@ -68,12 +70,15 @@ public class PostComponent extends JPanel {
 
         // add Name on top
         add(nameLabel,
-                constraints(0,0,1,1,GridBagConstraints.HORIZONTAL,GridBagConstraints.CENTER));
+                constraints(0,0,1,0,GridBagConstraints.NONE,GridBagConstraints.LINE_START));
+        // add category next to name
+        add(categoryLabel,
+                constraints(1,0,1,0,GridBagConstraints.NONE,GridBagConstraints.LINE_START));
         // add description below name
         add(descriptionArea,
-                constraints(0,1,1,1,GridBagConstraints.HORIZONTAL,GridBagConstraints.CENTER));
+                constraints(0,1,2,1,GridBagConstraints.HORIZONTAL,GridBagConstraints.CENTER));
         add(locationLabel,
-                constraints(0,2,1,1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER));
+                constraints(0,2,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         add(more,
                 constraints(0,3,1,0,GridBagConstraints.NONE, GridBagConstraints.LINE_START));
     }
@@ -92,7 +97,7 @@ public class PostComponent extends JPanel {
             int column,
             int row,
             int width,
-            double weightx,
+            float weightx,
             int fill,
             int anchor
     ) {
@@ -171,8 +176,8 @@ public class PostComponent extends JPanel {
     }
 
     // Test main
-    // public static void main(String[] args) {
+    public static void main(String[] args) {
         // Invoke later from Oracle
-        // SwingUtilities.invokeLater(PostComponent::test);
-    // }
+        SwingUtilities.invokeLater(PostComponent::test);
+     }
 }
