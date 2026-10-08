@@ -3,9 +3,9 @@ package src.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class BrowseListings {
+public class BrowseListings extends JFrame{
 
-    public static void main(String[] args) {
+    public BrowseListings() {
 
         JFrame frame = new JFrame("Campus Lost & Found");
 
@@ -66,4 +66,6 @@ public class BrowseListings {
 
         frame.setVisible(true);
     }
+
+
 }

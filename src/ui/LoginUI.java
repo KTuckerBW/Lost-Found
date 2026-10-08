@@ -116,6 +116,10 @@ public class LoginUI extends JFrame implements ActionListener {
             feedbackLabel.setBackground(Color.GREEN);
 
             usernameField.setText("");
+
+            new BrowseListings().setVisible(true);
+            dispose();
+
         } else {
             // Alert the user of their mistake
             feedbackLabel.setText("Username or password is incorrect!");
