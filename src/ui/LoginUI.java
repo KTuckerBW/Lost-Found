@@ -1,8 +1,9 @@
-package src.ui; /**
+/**
  * Kaitlyn Tucker
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
+package src.ui;
 import src.ui.BrowseListings;
 import src.auth.UserAuthenticator;
 import src.model.User;
@@ -147,18 +148,4 @@ public class LoginUI extends JFrame implements ActionListener {
         timer.setRepeats(false);
         timer.start();
     }
-
-//    /*
-//     * Handles login attempts and updates the feedback banner.
-//     */
-//    private class LoginButtonListener {
-//        private AuthService authService;
-//
-//        public void actionPerformed(ActionEvent e) {
-//
-//        }
-
-
-//    }
-
 }
