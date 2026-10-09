@@ -54,43 +54,8 @@ public class csvPostGrabber {
         return posts;
     }
 
-
-    // Modified helper method from Bradley's parseCsv
-   /* private List<Map<String, Object>> parseCsv() {
-        List<Map<String, Object>> rows = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            if (line == null) return rows;
-
-            String[] header = line.split(",");
-
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-
-                // Modified the map to accept strings and ints
-                Map<String, Object> row = new HashMap<>();
-
-                // Check if it's the only int we are saving and turn it into an int value
-                for (int i = 0; i < header.length; i++) {
-                    if ("ProductID".equals(header[i])) {
-                        row.put(header[i], Integer.valueOf(fields[i]));
-                    } else {
-                        row.put(header[i], fields[i]);
-                    }
-                }
-
-                // Add the populated row to list
-                rows.add(row);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return rows;
-    }
-*/
     // Test method to grab data
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         String filePath = "./data/LstAndFndListing.csv";
 
         csvPostGrabber grabber = new csvPostGrabber(filePath);
@@ -102,5 +67,5 @@ public class csvPostGrabber {
         for (int i = 0; i < posts.size(); i++) {
             System.out.println("Post " + (i + 1) + ": " + posts.get(i));
         }
-    }
+    }*/
 }
