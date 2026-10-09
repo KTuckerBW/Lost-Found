@@ -24,6 +24,11 @@ public class BrowseListings extends JPanel {
         scrollPane = new JScrollPane(listingsPanel);
         logout = new JButton("Log Out");
 
+        // Action Listener to switch panels
+        // logout.addActionListener(event -> {
+        //    controller.showLogin();
+        //});
+
         JLabel title = new JLabel("Campus Lost & Found");
         JPanel footerPanel = new JPanel(new GridBagLayout());
 
@@ -43,11 +48,6 @@ public class BrowseListings extends JPanel {
         // Fonts
         title.setFont(myFont.deriveFont(Font.BOLD, 24));
         logout.setFont(myFont);
-
-        // Action Listener to switch panels
-        //logout.addActionListener(event -> {
-        //    controller.showLogin();
-        //});
 
 
 

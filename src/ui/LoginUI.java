@@ -13,6 +13,8 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class LoginUI extends JPanel implements ActionListener {
+    private UserAuthenticator userAuthenticator;
+    private controllerFrame controller;
     private JButton login;
     private JPanel panel; // the panel will hold all the components
     private JLabel usernameLabel;
@@ -21,11 +23,10 @@ public class LoginUI extends JPanel implements ActionListener {
     private JLabel titleLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private UserAuthenticator userAuthenticator;
 
     public LoginUI(controllerFrame controller, UserAuthenticator userAuthenticator) {
         this.userAuthenticator = userAuthenticator;
-
+        this.controller = controller;
         buildPanel();
     }
 
@@ -56,8 +57,9 @@ public class LoginUI extends JPanel implements ActionListener {
     }
 
     private void buildPanel() {
-        panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Changed this because I changed the whole class to be a Panel
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         titleLabel = new JLabel("Login to Lst&Fnd!");
 
@@ -77,17 +79,17 @@ public class LoginUI extends JPanel implements ActionListener {
         feedbackLabel.setOpaque(false);
 
         // Title, login button, and feedback label span both columns.
-        panel.add(titleLabel, constraints(0, 0, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
-        panel.add(login, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
-        panel.add(feedbackLabel, constraints(0, 4, 2, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.CENTER));
+        add(titleLabel, constraints(0, 0, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
+        add(login, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
+        add(feedbackLabel, constraints(0, 4, 2, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.CENTER));
 
         // The text fields consumes any extra horizontal space in their row
-        panel.add(usernameField, constraints(1, 1, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
-        panel.add(passwordField, constraints(1, 2, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
+        add(usernameField, constraints(1, 1, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
+        add(passwordField, constraints(1, 2, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
 
         // Rest of the components
-        panel.add(usernameLabel, constraints(0, 1, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
-        panel.add(passwordLabel, constraints(0, 2, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+        add(usernameLabel, constraints(0, 1, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+        add(passwordLabel, constraints(0, 2, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
 
 
     }
@@ -103,25 +105,28 @@ public class LoginUI extends JPanel implements ActionListener {
         // Authenticate users regardless of the data origin: file or database
         User user = this.userAuthenticator.authenticate(username, typedPassword);
         if (user != null) {
-            // Open a new window and close this one (WIP FEATURE)
-
-            // But for now just display a success window
+            // Display a success window
             feedbackLabel.setText("Login successful! :)");
-            // this is where my BrowseListings page windows should open up
             feedbackLabel.setBackground(Color.GREEN);
+            feedbackLabel.setOpaque(true);
 
             usernameField.setText("");
+
+            // this is where my BrowseListings page windows should open up
+            // Switch to the right page
+            // controller.showBrowsing();
 
         } else {
             // Alert the user of their mistake
             feedbackLabel.setText("Username or password is incorrect!");
             feedbackLabel.setBackground(Color.RED);
+            feedbackLabel.setOpaque(true);
+            feedbackTimer();
+
         }
 
         // overwrite sensitive data and expose the banner
         typedPassword = "";
-        feedbackLabel.setOpaque(true);
-        feedbackTimer();
 
         // Keep the username after a failed attempt, clear the password
         passwordField.setText("");

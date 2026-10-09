@@ -33,6 +33,15 @@ public class controllerFrame extends JFrame{
             mainPanel.add(loginPanel, login);
             mainPanel.add(browsingPanel, browsing);
 
+            // put the container into the frame
+            setContentPane(mainPanel);
 
+            // start on the login screen
+            showLogin();
+
+            // show everything :)!!!!
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
         }
 }
