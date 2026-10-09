@@ -44,4 +44,12 @@ public class controllerFrame extends JFrame{
             setLocationRelativeTo(null);
             setVisible(true);
         }
+
+        public void showLogin(){
+            cardLayout.show(mainPanel, login);
+        }
+
+        public void showBrowsing(){
+            cardLayout.show(mainPanel, browsing);
+        }
 }
