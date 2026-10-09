@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class LoginUI extends JFrame implements ActionListener {
+public class LoginUI extends JPanel implements ActionListener {
     private JButton login;
     private JPanel panel; // the panel will hold all the components
     private JLabel usernameLabel;
@@ -23,17 +23,10 @@ public class LoginUI extends JFrame implements ActionListener {
     private JPasswordField passwordField;
     private UserAuthenticator userAuthenticator;
 
-    public LoginUI(UserAuthenticator userAuthenticator) {
+    public LoginUI(controllerFrame controller, UserAuthenticator userAuthenticator) {
         this.userAuthenticator = userAuthenticator;
-        setTitle("Lst&Fnd");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         buildPanel();
-        add(panel);
-        pack(); // pack allows dynamic resizing of components depending on the size of the window
-
-        setLocationRelativeTo(null); // will center the window
-        setVisible(true);
     }
 
     /*
@@ -115,7 +108,6 @@ public class LoginUI extends JFrame implements ActionListener {
             // But for now just display a success window
             feedbackLabel.setText("Login successful! :)");
             // this is where my BrowseListings page windows should open up
-            BrowseListings.main(new String[]{}); // JUST CHANGED: (NINA) Redirects the user to the Browse Listings page after successful authentication
             feedbackLabel.setBackground(Color.GREEN);
 
             usernameField.setText("");

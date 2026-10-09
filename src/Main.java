@@ -16,7 +16,7 @@ public class Main {
         setFont();
 
         UserAuthenticator userAuthenticator = new CsvUserAuthenticator("./data/UserAccounts.csv");
-        SwingUtilities.invokeLater(() -> new LoginUI(userAuthenticator));
+        // SwingUtilities.invokeLater(() -> new LoginUI(userAuthenticator));
     }
 
     // Set font to something more readable
