@@ -1,6 +1,6 @@
-package src.auth;
+package com.lostandfound.auth;
 
-import src.model.User;
+import com.lostandfound.model.User;
 
 /**
  * Defines how users are authenticated, without tying the code

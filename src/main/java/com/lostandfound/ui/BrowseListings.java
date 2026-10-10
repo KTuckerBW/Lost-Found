@@ -1,7 +1,7 @@
 // Nina Aubourg
 // Comp 390
 // Browse listings page where users can browse their lost and found items
-package src.ui;
+package com.lostandfound.ui;
 
 import javax.swing.*;
 import java.awt.*;

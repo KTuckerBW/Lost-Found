@@ -1,13 +1,13 @@
-package src.ui;
+package com.lostandfound.ui;
 
-import src.model.Post;
+
+import com.lostandfound.model.Post;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PostComponent extends JPanel {
-    // Main components
+    // com.lostandfound.Main components
     private final int previewLength = 30;
     private  Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private Post post;

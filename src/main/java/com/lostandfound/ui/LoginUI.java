@@ -3,14 +3,16 @@
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
-package src.ui;
-import src.ui.BrowseListings;
-import src.auth.UserAuthenticator;
-import src.model.User;
+package com.lostandfound.ui;
+
+
+import com.lostandfound.auth.UserAuthenticator;
+import com.lostandfound.model.User;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginUI extends JFrame implements ActionListener {
     private JButton login;
