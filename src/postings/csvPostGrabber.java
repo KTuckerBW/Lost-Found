@@ -86,7 +86,7 @@ public class csvPostGrabber {
 
 
     // Test method to grab data
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         String filePath = "./data/LstAndFndListing.csv";
 
         csvPostGrabber grabber = new csvPostGrabber(filePath);
@@ -98,5 +98,5 @@ public class csvPostGrabber {
         for (int i = 0; i < posts.size(); i++) {
             System.out.println("Post " + (i + 1) + ": " + posts.get(i));
         }
-    }
+    }*/
 }
