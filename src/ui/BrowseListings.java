@@ -25,9 +25,9 @@ public class BrowseListings extends JPanel {
         logout = new JButton("Log Out");
 
         // Action Listener to switch panels
-        // logout.addActionListener(event -> {
-        //    controller.showLogin();
-        //});
+        logout.addActionListener(event -> {
+            controller.showLogin();
+        });
 
         JLabel title = new JLabel("Campus Lost & Found");
         JPanel footerPanel = new JPanel(new GridBagLayout());
