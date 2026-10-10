@@ -1,11 +1,15 @@
-package src.postings;
+package com.lostandfound.postings;
 
-import src.model.Post;
+
+import com.lostandfound.model.Post;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class csvPostGrabber {
     // initialization
@@ -91,7 +95,7 @@ public class csvPostGrabber {
 */
     // Test method to grab data
     public static void main(String[] args) {
-        String filePath = "./data/LstAndFndListing.csv";
+        String filePath = "src/main/java/ressources/LstAndFndListing.csv";
 
         csvPostGrabber grabber = new csvPostGrabber(filePath);
 

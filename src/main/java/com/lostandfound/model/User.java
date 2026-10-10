@@ -1,4 +1,4 @@
-package src.model;
+package com.lostandfound.model;
 
 public class User {
     private final String role;

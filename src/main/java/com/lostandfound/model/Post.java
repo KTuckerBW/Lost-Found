@@ -1,4 +1,4 @@
-package src.model;
+package com.lostandfound.model;
 import java.util.Map;
 
 public class Post {
