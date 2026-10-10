@@ -16,7 +16,6 @@ public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
     private controllerFrame controller;
     private JButton login;
-    private JPanel panel; // the panel will hold all the components
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel feedbackLabel;
@@ -111,32 +110,33 @@ public class LoginUI extends JPanel implements ActionListener {
             feedbackLabel.setOpaque(true);
 
             usernameField.setText("");
+            passwordField.setText("");
+            feedbackTimer(1000);
 
             // this is where my BrowseListings page windows should open up
             // Switch to the right page
-            // controller.showBrowsing();
+            controller.showBrowsing();
 
         } else {
             // Alert the user of their mistake
             feedbackLabel.setText("Username or password is incorrect!");
             feedbackLabel.setBackground(Color.RED);
             feedbackLabel.setOpaque(true);
-            feedbackTimer();
+            feedbackTimer(3000);
+            passwordField.setText("");
+
 
         }
 
-        // overwrite sensitive data and expose the banner
+        // overwrite sensitive data
         typedPassword = "";
-
-        // Keep the username after a failed attempt, clear the password
-        passwordField.setText("");
     }
 
     /*
-     * Helper method to hide the feedback banner after three seconds
+     * Helper method to hide the feedback banner after some odd seconds
      */
-    private void feedbackTimer() {
-        Timer timer = new Timer(3000, new ActionListener() {
+    private void feedbackTimer(int milliseconds) {
+        Timer timer = new Timer(milliseconds, new ActionListener() {
             public void actionPerformed(ActionEvent timerEvent) {
                 feedbackLabel.setText(" ");
                 feedbackLabel.setOpaque(false);
