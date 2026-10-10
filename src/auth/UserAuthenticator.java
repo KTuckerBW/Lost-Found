@@ -10,12 +10,12 @@ import src.model.User;
  * </p>
  */
 public interface UserAuthenticator {
-        /**
-         * Authenticates a user by username and password.
-         *
-         * @param username the account name
-         * @param password the secret credential
-         * @return the authenticated {@link User}, or {@code null} if credentials are invalid
-         */
-        User authenticate(String username, String password);
+    /**
+     * Authenticates a user by username and password.
+     *
+     * @param username the account name
+     * @param password the secret credential
+     * @return the authenticated {@link User}, or {@code null} if credentials are invalid
+     */
+    User authenticate(String username, String password);
 }
