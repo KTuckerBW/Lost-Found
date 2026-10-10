@@ -1,11 +1,17 @@
 package src;
 
-import src.auth.UserAuthenticator;
 import src.auth.CsvUserAuthenticator;
-import src.ui.LoginUI;
+import src.auth.UserAuthenticator;
+
+import src.postings.csvPostGrabber;
+import src.model.Post;
+
+import src.ui.controllerFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 public class Main {
     /*
@@ -13,10 +19,21 @@ public class Main {
      * while you are waiting for your GUI to build. Idk if Dr. Kumari prefers this or new LoginUIClean();
      */
     public static void main(String[] args) {
-        setFont();
+        SwingUtilities.invokeLater(() -> {
+            setFont();
 
-        UserAuthenticator userAuthenticator = new CsvUserAuthenticator("./data/UserAccounts.csv");
-        // SwingUtilities.invokeLater(() -> new LoginUI(userAuthenticator));
+            // Initialize
+            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("./data/UserAccounts.csv");
+            csvPostGrabber postGrabber = new csvPostGrabber("./data/LstAndFndListing.csv");
+
+            List<Post> posts = postGrabber.loadPosts();
+            try {
+                new controllerFrame(userAuthenticator, posts);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     // Set font to something more readable
