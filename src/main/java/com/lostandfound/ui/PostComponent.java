@@ -1,13 +1,14 @@
 package com.lostandfound.ui;
 
-
 import com.lostandfound.model.Post;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PostComponent extends JPanel {
-    // com.lostandfound.Main components
+    // Main components
     private final int previewLength = 30;
     private  Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private Post post;
@@ -178,6 +179,6 @@ public class PostComponent extends JPanel {
     // Test main
     public static void main(String[] args) {
         // Invoke later from Oracle
-        SwingUtilities.invokeLater(PostComponent::test);
+       // SwingUtilities.invokeLater(PostComponent::test);
      }
 }

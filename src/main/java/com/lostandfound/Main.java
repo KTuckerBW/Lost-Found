@@ -2,24 +2,36 @@ package com.lostandfound;
 
 import com.lostandfound.auth.CsvUserAuthenticator;
 import com.lostandfound.auth.UserAuthenticator;
-import com.lostandfound.ui.LoginUI;
+import com.lostandfound.model.Post;
+import com.lostandfound.postings.csvPostGrabber;
+import com.lostandfound.ui.ControllerFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 public class Main {
     /*
-     * Swing is not thread safe. Oracle suggests using invokeLater because it won't block your main thread
-     * while you are waiting for your GUI to build. IDK if Dr. Kumari prefers this or new LoginUIClean();
+     * Swing is not thread safe. Oracle suggests using invokeLater because it wont block your main thread
+     * while you are waiting for your GUI to build. Idk if Dr. Kumari prefers this or new LoginUIClean();
      */
     public static void main(String[] args) {
-        setFont();
+        SwingUtilities.invokeLater(() -> {
+            setFont();
 
-        // TODO: can remove hardcoded path
-        //        Main.class.getClassLoader().getResourceAsStream("UserAccounts.csv");
-        UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/java/com/lostandfound/resources/UserAccounts.csv");
+            // Initialize
+            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/java/com/lostandfound/resources/UserAccounts.csv");
+            csvPostGrabber postGrabber = new csvPostGrabber("src/main/java/com/lostandfound/resources/LstAndFndListing.csv");
 
-        SwingUtilities.invokeLater(() -> new LoginUI(userAuthenticator));
+            List<Post> posts = postGrabber.loadPosts();
+            try {
+                new ControllerFrame(userAuthenticator, posts);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     // Set font to something more readable

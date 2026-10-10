@@ -1,72 +1,116 @@
-// Nina Aubourg
+package com.lostandfound.ui;// Nina Aubourg
 // Comp 390
 // Browse listings page where users can browse their lost and found items
-package com.lostandfound.ui;
+
+import com.lostandfound.model.Post;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
-public class BrowseListings {
+public class BrowseListings extends JPanel {
+    private final ControllerFrame controller;
+    private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
+    private JPanel listingsPanel;
+    private JScrollPane scrollPane;
+    private JButton logout;
 
-    public static void main(String[] args) {
 
-        JFrame frame = new JFrame("     Campus Lost & Found");
+    // Turning BrowseListings into a panel to work with controller Frame
+    public BrowseListings(ControllerFrame controller, List<Post> posts){
+        // Initialization
+        this.controller = controller;
+        listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
+        scrollPane = new JScrollPane(listingsPanel);
+        logout = new JButton("Log Out");
 
-        frame.setSize(600, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        // Action Listener to switch panels
+        logout.addActionListener(event -> {
+            controller.showLogin();
+        });
 
         JLabel title = new JLabel("Campus Lost & Found");
-        title.setFont(new Font("Arial", Font.BOLD, 24));
+        JPanel footerPanel = new JPanel(new GridBagLayout());
 
-        panel.add(title);
-        panel.add(Box.createVerticalStrut(20));
+        // Further set up of main panel
+        setLayout(new BorderLayout(10,10));
+        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        // Item 1
-        JLabel item1 = new JLabel(
-                "<html><b>Blue Water Bottle</b><br>" +
-                        "Location: Science Building - 2nd Floor<br>" +
-                        "Description: Blue bottle with a university sticker.</html>"
-        );
+        // Further set up of parts
+        listingsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10, 10));
 
-        JButton button1 = new JButton("View Details");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
-        panel.add(item1);
-        panel.add(button1);
-        panel.add(Box.createVerticalStrut(20));
+        // Fix the cooked scrolling
+        scrollPane.getVerticalScrollBar().setUnitIncrement(25);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
 
-        // Item 2
-        JLabel item2 = new JLabel(
-                "<html><b>Black Backpack</b><br>" +
-                        "Location: Library - 1st Floor<br>" +
-                        "Description: Black backpack found near the study area.</html>"
-        );
+        // Fonts
+        title.setFont(myFont.deriveFont(Font.BOLD, 24));
+        logout.setFont(myFont);
 
-        JButton button2 = new JButton("View Details");
 
-        panel.add(item2);
-        panel.add(button2);
-        panel.add(Box.createVerticalStrut(20));
 
-        // Item 3
-        JLabel item3 = new JLabel(
-                "<html><b>Set of Keys</b><br>" +
-                        "Location: Student Center - 3rd Floor<br>" +
-                        "Description: Small set of keys with a red keychain.</html>"
-        );
 
-        JButton button3 = new JButton("View Details");
 
-        panel.add(item3);
-        panel.add(button3);
+        // add logout to the footer panel
+        // Footer panel forces logout to be at the far right even if the cell its in is weirdly sized
+        footerPanel.add(logout, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.LINE_END));
 
-        JScrollPane scrollPane = new JScrollPane(panel);
 
-        frame.add(scrollPane);
+        // Add everything to the main panel
+        add(title, BorderLayout.NORTH);
+        add(scrollPane,BorderLayout.CENTER);
+        add(footerPanel, BorderLayout.SOUTH);
 
-        frame.setVisible(true);
+        // also kinda an adding stuff
+        setPosts(posts);
+    }
+
+    public void setPosts(List<Post> posts){
+        // Initialization
+        JLabel emptyLabel = new JLabel("No listings are available");
+        emptyLabel.setFont(myFont);
+
+        // Delete everything if there is anything, will be useful later with add/deleting
+        listingsPanel.removeAll();
+
+        // If there are no posts, provide feedback. Will also be useful later
+        if(posts.isEmpty()){
+            emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            listingsPanel.add(emptyLabel, constraints(0,0,1,1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START));
+        }else{
+            for(Post post: posts){
+                // add all the new components. Constraints set on listing earlier forces organization
+                listingsPanel.add(new PostComponent(post));
+            }
+        }
+
+        // update page
+        listingsPanel.revalidate();
+        listingsPanel.repaint();
+    }
+
+    // Helper method stolen from postComponents
+    private GridBagConstraints constraints(
+            int column,
+            int row,
+            int width,
+            float weightx,
+            int fill,
+            int anchor
+    ) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        // Add 5 empty pixels as padding around every component
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        gbc.gridx = column;
+        gbc.gridy = row;
+        gbc.gridwidth = width;
+        gbc.fill = fill; // determines if and where a component can expand into extra space
+        gbc.weightx = weightx; // determines how components share extra space if multiple components can expand into the same space
+        gbc.anchor = anchor; // determines component alignment within its own cell
+
+        return gbc;
     }
 }
