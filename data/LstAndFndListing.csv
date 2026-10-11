@@ -1,4 +1,0 @@
-ProductID,UserID,ProductName,Photo,Description,Location,Category,Status,DateOfListing,ExpirationDate,ValueStatus
-101,DMFAdmin,Water Bottle,hydroflask.jpg,Black Hydroflask,DMF,Accessories,Unclaimed,2026-09-28,2026-10-28,Standard
-102,admin,Airpods,airpods.jpg,White AirPods Pro 3rd Generation,Burnell,Electronics,Unclaimed,2026-10-01,2026-11-01,High
-103,michael,Laptop,macbook.jpg,Blue Apple MacBook Air,Maxwell Library,Electronics,Claimed,2026-10-03,2026-11-03,High

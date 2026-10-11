@@ -1,39 +1,31 @@
-/**
+package com.lostandfound.ui; /**
  * Kaitlyn Tucker
  * Comp390
  * Login screen without database functionality. Enter button doesn't work.
  */
-package src.ui;
-import src.ui.BrowseListings;
-import src.auth.UserAuthenticator;
-import src.model.User;
+
+import com.lostandfound.auth.UserAuthenticator;
+import com.lostandfound.model.User;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class LoginUI extends JFrame implements ActionListener {
-    private JButton login;
-    private JPanel panel; // the panel will hold all the components
+public class LoginUI extends JPanel implements ActionListener {
+    private UserAuthenticator userAuthenticator;
+    private ControllerFrame controller;
+    private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel feedbackLabel;
     private JLabel titleLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private UserAuthenticator userAuthenticator;
 
-    public LoginUI(UserAuthenticator userAuthenticator) {
+    public LoginUI(ControllerFrame controller, UserAuthenticator userAuthenticator) {
         this.userAuthenticator = userAuthenticator;
-        setTitle("Lst&Fnd");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.controller = controller;
         buildPanel();
-        add(panel);
-        pack(); // pack allows dynamic resizing of components depending on the size of the window
-
-        setLocationRelativeTo(null); // will center the window
-        setVisible(true);
     }
 
     /*
@@ -63,8 +55,9 @@ public class LoginUI extends JFrame implements ActionListener {
     }
 
     private void buildPanel() {
-        panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Changed this because I changed the whole class to be a Panel
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         titleLabel = new JLabel("Login to Lst&Fnd!");
 
@@ -74,8 +67,8 @@ public class LoginUI extends JFrame implements ActionListener {
         passwordLabel = new JLabel("Password: ");
         passwordField = new JPasswordField(25);
 
-        login = new JButton("Log In");
-        login.addActionListener(this);
+        loginButton = new JButton("Log In");
+        loginButton.addActionListener(this);
 
         // Start with a blank label that is visible but the bg is not opaque so the user can't see it
         // It still reserves space so that the window wont resize when the banner appears and disappears
@@ -84,17 +77,18 @@ public class LoginUI extends JFrame implements ActionListener {
         feedbackLabel.setOpaque(false);
 
         // Title, login button, and feedback label span both columns.
-        panel.add(titleLabel, constraints(0, 0, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
-        panel.add(login, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
-        panel.add(feedbackLabel, constraints(0, 4, 2, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.CENTER));
+        add(titleLabel, constraints(0, 0, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
+        add(loginButton, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
+        add(feedbackLabel, constraints(0, 4, 2, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.CENTER));
 
         // The text fields consumes any extra horizontal space in their row
-        panel.add(usernameField, constraints(1, 1, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
-        panel.add(passwordField, constraints(1, 2, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
+        add(usernameField, constraints(1, 1, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
+        add(passwordField, constraints(1, 2, 1, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.LINE_START));
 
         // Rest of the components
-        panel.add(usernameLabel, constraints(0, 1, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
-        panel.add(passwordLabel, constraints(0, 2, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+        add(usernameLabel, constraints(0, 1, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+        add(passwordLabel, constraints(0, 2, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+
 
 
     }
@@ -108,38 +102,41 @@ public class LoginUI extends JFrame implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = this.userAuthenticator.authenticate(username, typedPassword);
+        User user = userAuthenticator.authenticate(username, typedPassword);
         if (user != null) {
-            // Open a new window and close this one (WIP FEATURE)
-
-            // But for now just display a success window
+            // Display a success window
             feedbackLabel.setText("Login successful! :)");
-            // this is where my BrowseListings page windows should open up
-            BrowseListings.main(new String[]{}); // JUST CHANGED: (NINA) Redirects the user to the Browse Listings page after successful authentication
             feedbackLabel.setBackground(Color.GREEN);
+            feedbackLabel.setOpaque(true);
 
             usernameField.setText("");
+            passwordField.setText("");
+            feedbackTimer(1000);
+
+            // this is where my BrowseListings page windows should open up
+            // Switch to the right page
+            controller.showBrowsing();
 
         } else {
             // Alert the user of their mistake
             feedbackLabel.setText("Username or password is incorrect!");
             feedbackLabel.setBackground(Color.RED);
+            feedbackLabel.setOpaque(true);
+            feedbackTimer(3000);
+            passwordField.setText("");
+
+
         }
 
-        // overwrite sensitive data and expose the banner
+        // overwrite sensitive data
         typedPassword = "";
-        feedbackLabel.setOpaque(true);
-        feedbackTimer();
-
-        // Keep the username after a failed attempt, clear the password
-        passwordField.setText("");
     }
 
     /*
-     * Helper method to hide the feedback banner after three seconds
+     * Helper method to hide the feedback banner after some odd seconds
      */
-    private void feedbackTimer() {
-        Timer timer = new Timer(3000, new ActionListener() {
+    private void feedbackTimer(int milliseconds) {
+        Timer timer = new Timer(milliseconds, new ActionListener() {
             public void actionPerformed(ActionEvent timerEvent) {
                 feedbackLabel.setText(" ");
                 feedbackLabel.setOpaque(false);
@@ -147,5 +144,14 @@ public class LoginUI extends JFrame implements ActionListener {
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    /**
+     * Used by {@link ControllerFrame} to set {@code loginButton} as the
+     * frame's default button.
+     * @return {@code JButton}
+     */
+    public JButton getLoginButton (){
+        return loginButton;
     }
 }

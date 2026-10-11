@@ -1,6 +1,7 @@
-package src.ui;
+package com.lostandfound.ui;
 
-import src.model.Post;
+import com.lostandfound.model.Post;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -178,6 +179,6 @@ public class PostComponent extends JPanel {
     // Test main
     public static void main(String[] args) {
         // Invoke later from Oracle
-        SwingUtilities.invokeLater(PostComponent::test);
+       // SwingUtilities.invokeLater(PostComponent::test);
      }
 }
