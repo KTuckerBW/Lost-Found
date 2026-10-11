@@ -20,7 +20,7 @@ public class ControllerFrame extends JFrame{
         cardLayout = new CardLayout();
         mainPanel = new JPanel((cardLayout));
 
-        setTitle("Lst&Fnd");
+        setTitle("Lost-Found");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(500,500));
 
@@ -29,6 +29,9 @@ public class ControllerFrame extends JFrame{
         // This initializes an instance of the login screen
         LoginUI loginPanel = new LoginUI(this, userAuthenticator);
         BrowseListings browsingPanel = new BrowseListings(this, posts);
+
+        // Add enter key support
+        getRootPane().setDefaultButton(loginPanel.getLoginButton());
 
         // Add our cards to the controller
         mainPanel.add(loginPanel, login);

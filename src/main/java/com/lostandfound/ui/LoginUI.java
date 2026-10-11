@@ -14,7 +14,7 @@ import java.awt.*;
 public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
     private ControllerFrame controller;
-    private JButton login;
+    private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel feedbackLabel;
@@ -67,8 +67,8 @@ public class LoginUI extends JPanel implements ActionListener {
         passwordLabel = new JLabel("Password: ");
         passwordField = new JPasswordField(25);
 
-        login = new JButton("Log In");
-        login.addActionListener(this);
+        loginButton = new JButton("Log In");
+        loginButton.addActionListener(this);
 
         // Start with a blank label that is visible but the bg is not opaque so the user can't see it
         // It still reserves space so that the window wont resize when the banner appears and disappears
@@ -78,7 +78,7 @@ public class LoginUI extends JPanel implements ActionListener {
 
         // Title, login button, and feedback label span both columns.
         add(titleLabel, constraints(0, 0, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
-        add(login, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
+        add(loginButton, constraints(0, 3, 2, GridBagConstraints.NONE, 0, GridBagConstraints.CENTER));
         add(feedbackLabel, constraints(0, 4, 2, GridBagConstraints.HORIZONTAL, 1, GridBagConstraints.CENTER));
 
         // The text fields consumes any extra horizontal space in their row
@@ -88,6 +88,7 @@ public class LoginUI extends JPanel implements ActionListener {
         // Rest of the components
         add(usernameLabel, constraints(0, 1, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
         add(passwordLabel, constraints(0, 2, 1, GridBagConstraints.NONE, 0, GridBagConstraints.LINE_END));
+
 
 
     }
@@ -101,7 +102,7 @@ public class LoginUI extends JPanel implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = this.userAuthenticator.authenticate(username, typedPassword);
+        User user = userAuthenticator.authenticate(username, typedPassword);
         if (user != null) {
             // Display a success window
             feedbackLabel.setText("Login successful! :)");
@@ -143,5 +144,14 @@ public class LoginUI extends JPanel implements ActionListener {
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    /**
+     * Used by {@link ControllerFrame} to set {@code loginButton} as the
+     * frame's default button.
+     * @return {@code JButton}
+     */
+    public JButton getLoginButton (){
+        return loginButton;
     }
 }
