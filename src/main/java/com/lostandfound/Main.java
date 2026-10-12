@@ -21,8 +21,9 @@ public class Main {
             setFont();
 
             // Initialize
-            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/java/com/lostandfound/resources/UserAccounts.csv");
-            csvPostGrabber postGrabber = new csvPostGrabber("src/main/java/com/lostandfound/resources/LstAndFndListing.csv");
+
+            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/resources/UserAccounts.csv");
+            csvPostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
 
             List<Post> posts = postGrabber.loadPosts();
             try {
