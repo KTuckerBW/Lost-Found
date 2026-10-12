@@ -18,7 +18,7 @@ PanelNameHere.add(new PostComponent(post));
 }
 
 The GUI class which will use these methods needs these imports
-import src.model.Post;
-import src.postings.csvPostGrabber;
-import src.ui.PostComponent;
+import src.main.java.model.Post;
+import src.main.java.postings.csvPostGrabber;
+import src.main.java.ui.PostComponent;
 import java.util.List;

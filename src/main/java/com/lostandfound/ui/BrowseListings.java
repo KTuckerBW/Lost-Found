@@ -1,15 +1,15 @@
-// Nina Aubourg
+package com.lostandfound.ui;// Nina Aubourg
 // Comp 390
 // Browse listings page where users can browse their lost and found items
-package src.ui;
 
-import src.model.Post;
+import com.lostandfound.model.Post;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class BrowseListings extends JPanel {
-    private final controllerFrame controller;
+    private final ControllerFrame controller;
     private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JPanel listingsPanel;
     private JScrollPane scrollPane;
@@ -17,7 +17,7 @@ public class BrowseListings extends JPanel {
 
 
     // Turning BrowseListings into a panel to work with controller Frame
-    public BrowseListings(controllerFrame controller, List<Post> posts){
+    public BrowseListings(ControllerFrame controller, List<Post> posts){
         // Initialization
         this.controller = controller;
         listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down

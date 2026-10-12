@@ -1,12 +1,10 @@
-package src;
+package com.lostandfound;
 
-import src.auth.CsvUserAuthenticator;
-import src.auth.UserAuthenticator;
-
-import src.postings.csvPostGrabber;
-import src.model.Post;
-
-import src.ui.controllerFrame;
+import com.lostandfound.auth.CsvUserAuthenticator;
+import com.lostandfound.auth.UserAuthenticator;
+import com.lostandfound.model.Post;
+import com.lostandfound.postings.csvPostGrabber;
+import com.lostandfound.ui.ControllerFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,12 +21,13 @@ public class Main {
             setFont();
 
             // Initialize
-            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("./data/UserAccounts.csv");
-            csvPostGrabber postGrabber = new csvPostGrabber("./data/LstAndFndListing.csv");
+
+            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/resources/UserAccounts.csv");
+            csvPostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
 
             List<Post> posts = postGrabber.loadPosts();
             try {
-                new controllerFrame(userAuthenticator, posts);
+                new ControllerFrame(userAuthenticator, posts);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

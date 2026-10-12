@@ -1,6 +1,7 @@
-package src.ui;
+package com.lostandfound.ui;
 
-import src.model.Post;
+import com.lostandfound.model.Post;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

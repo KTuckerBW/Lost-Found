@@ -1,18 +1,19 @@
-package src.postings;
+package com.lostandfound.postings;
 
-import src.model.Post;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
-
-// Adding a CSV lib to handle long descriptions
-// You might have to download the jar for it.
+import com.lostandfound.model.Post;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+// Adding a CSV lib to handle long descriptions
+// It's now a dependency in the pom.xml file
 
 public class csvPostGrabber {
     // Initialization

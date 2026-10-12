@@ -1,6 +1,6 @@
-package src.auth;
+package com.lostandfound.auth;
 
-import src.model.User;
+import com.lostandfound.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,8 +29,11 @@ public class CsvUserAuthenticator implements UserAuthenticator {
         List<Map<String, String>> rows = parseCsv();
 
         for (Map<String, String> row : rows) {
-            if (username.equals(row.get("Username")) && password.equals(row.get("Password"))) {
-                return User.fromRow(row);
+            User user = toUser(row);
+
+            if (user.getUsername().equals(username)
+                && user.getPassword().equals(password)){
+                return user;
             }
         }
         return null;
@@ -63,4 +66,13 @@ public class CsvUserAuthenticator implements UserAuthenticator {
         }
         return rows;
     }
-}   
+
+    private User toUser(Map<String, String> row){
+        return User.of(
+                row.get("Role"),
+                row.get("Username"),
+                row.get("Password"),
+                row.get("Email")
+        );
+    }
+}
