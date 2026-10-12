@@ -178,6 +178,6 @@ public class PostComponent extends JPanel {
     // Test main
     public static void main(String[] args) {
         // Invoke later from Oracle
-        SwingUtilities.invokeLater(PostComponent::test);
+       // SwingUtilities.invokeLater(PostComponent::test);
      }
 }
