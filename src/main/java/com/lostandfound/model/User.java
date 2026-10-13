@@ -1,0 +1,47 @@
+package com.lostandfound.model;
+
+public class User {
+    private final String role;
+    private final String username;
+    private final String password;
+    private final String email;
+
+    private User(
+            String role,
+            String username,
+            String password,
+            String email) {
+
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    // Static factory method
+    public static User of(
+            String role,
+            String username,
+            String password,
+            String email) {
+
+        return new User(role, username, password, email);
+
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+}
