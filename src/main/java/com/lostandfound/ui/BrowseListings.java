@@ -10,24 +10,62 @@ import java.util.List;
 
 public class BrowseListings extends JPanel {
     private final ControllerFrame controller;
+    private final JPanel searchPanel;
+    private final Object[] data = null;
+    // DefaultListModel<String> listModel = new DefaultListModel<>();
+    private JPanel listModel;
     private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JPanel listingsPanel;
     private JScrollPane scrollPane;
+
     private JButton logout;
+    private JButton electronicsButton;
+    private JButton accessoriesButton;
+    private JButton clothingsButton;
+    private JButton bagsButton;
+
+    // private JList categories;
+
 
 
     // Turning BrowseListings into a panel to work with controller Frame
     public BrowseListings(ControllerFrame controller, List<Post> posts){
         // Initialization
         this.controller = controller;
-        listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
+        listingsPanel = new JPanel(new GridLayout(0,3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
+        listModel = new JPanel(new GridLayout(5,1,10,10));
         scrollPane = new JScrollPane(listingsPanel);
+
         logout = new JButton("Log Out");
+        accessoriesButton = new JButton("Accessories");
+        electronicsButton = new JButton("Electronics");
+        clothingsButton = new JButton("Clothing");
+        bagsButton = new JButton("Bags");
+
+
+        searchPanel = new JPanel(new GridLayout(5,1,10,10));
+
+
+
+
+        // listModel.addElement("Accessories");
+        // listModel.addElement("Electronics");
+        // listModel.addElement("Clothing");
+        // listModel.addElement("Bags");
+
+        listModel.add(accessoriesButton, constraints(0,0,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(electronicsButton, constraints(0,1,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(clothingsButton, constraints(0,2,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(bagsButton, constraints(0,3,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        // categories = new JList(listModel);
 
         // Action Listener to switch panels
         logout.addActionListener(event -> {
             controller.showLogin();
         });
+
+        // action Listener for Accessories
+
 
         JLabel title = new JLabel("Campus Lost & Found");
         JPanel footerPanel = new JPanel(new GridBagLayout());
@@ -48,6 +86,7 @@ public class BrowseListings extends JPanel {
         // Fonts
         title.setFont(myFont.deriveFont(Font.BOLD, 24));
         logout.setFont(myFont);
+        // categories.setFont(myFont);
 
 
 
@@ -56,12 +95,14 @@ public class BrowseListings extends JPanel {
         // add logout to the footer panel
         // Footer panel forces logout to be at the far right even if the cell its in is weirdly sized
         footerPanel.add(logout, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.LINE_END));
-
+//        searchPanel.add(categories);
+        searchPanel.add(listModel);
 
         // Add everything to the main panel
         add(title, BorderLayout.NORTH);
         add(scrollPane,BorderLayout.CENTER);
         add(footerPanel, BorderLayout.SOUTH);
+        add(searchPanel, BorderLayout.WEST);
 
         // also kinda an adding stuff
         setPosts(posts);
