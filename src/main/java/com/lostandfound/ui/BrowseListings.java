@@ -23,6 +23,7 @@ public class BrowseListings extends JPanel {
     private JButton accessoriesButton;
     private JButton clothingsButton;
     private JButton bagsButton;
+    private JButton allListingsButton;
 
     // private JList categories;
 
@@ -41,6 +42,46 @@ public class BrowseListings extends JPanel {
         electronicsButton = new JButton("Electronics");
         clothingsButton = new JButton("Clothing");
         bagsButton = new JButton("Bags");
+        allListingsButton = new JButton("All Listings");
+
+        accessoriesButton.addActionListener(event -> {
+            List<Post> filteredPosts = posts.stream()
+                    .filter(post -> post.getCategory() != null
+                            && post.getCategory().equalsIgnoreCase("Accessories"))
+                    .toList();
+
+            setPosts(filteredPosts);
+        });
+
+        electronicsButton.addActionListener(event -> {
+            List<Post> filteredPosts = posts.stream()
+                    .filter(post -> post.getCategory() != null
+                            && post.getCategory().equalsIgnoreCase("Electronics"))
+                    .toList();
+
+            setPosts(filteredPosts);
+        });
+
+        clothingsButton.addActionListener(event -> {
+            List<Post> filteredPosts = posts.stream()
+                    .filter(post -> post.getCategory() != null
+                            && post.getCategory().equalsIgnoreCase("Clothing"))
+                    .toList();
+
+            setPosts(filteredPosts);
+        });
+
+        bagsButton.addActionListener(event -> {
+            List<Post> filteredPosts = posts.stream()
+                    .filter(post -> post.getCategory() != null
+                            && post.getCategory().equalsIgnoreCase("Bags"))
+                    .toList();
+
+            setPosts(filteredPosts);
+        });
+
+        allListingsButton.addActionListener(event ->setPosts(posts));
+
 
 
         searchPanel = new JPanel(new GridLayout(5,1,10,10));
@@ -57,6 +98,7 @@ public class BrowseListings extends JPanel {
         listModel.add(electronicsButton, constraints(0,1,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(clothingsButton, constraints(0,2,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(bagsButton, constraints(0,3,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(allListingsButton, constraints(0, 4,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         // categories = new JList(listModel);
 
         // Action Listener to switch panels
