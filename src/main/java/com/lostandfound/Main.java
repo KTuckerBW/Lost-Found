@@ -3,6 +3,7 @@ package com.lostandfound;
 import com.lostandfound.auth.CsvUserAuthenticator;
 import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.model.Post;
+import com.lostandfound.postings.PostGrabber;
 import com.lostandfound.postings.csvPostGrabber;
 import com.lostandfound.ui.ControllerFrame;
 
@@ -23,7 +24,7 @@ public class Main {
             // Initialize
 
             UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/resources/UserAccounts.csv");
-            csvPostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
+            PostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
 
             List<Post> posts = postGrabber.loadPosts();
             try {
