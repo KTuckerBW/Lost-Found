@@ -6,16 +6,17 @@ import com.lostandfound.model.Post;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BrowseListings extends JPanel {
     private final ControllerFrame controller;
+    private final List<Post> allPosts;
     private final JPanel searchPanel;
-    private final Object[] data = null;
-    // DefaultListModel<String> listModel = new DefaultListModel<>();
+
     private JPanel listModel;
-    private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JPanel listingsPanel;
+    private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JScrollPane scrollPane;
 
     private JButton logout;
@@ -23,17 +24,19 @@ public class BrowseListings extends JPanel {
     private JButton accessoriesButton;
     private JButton clothingsButton;
     private JButton bagsButton;
+    private JButton allButton;
 
     // private JList categories;
 
 
-
     // Turning BrowseListings into a panel to work with controller Frame
-    public BrowseListings(ControllerFrame controller, List<Post> posts){
+    public BrowseListings(ControllerFrame controller, List<Post> posts) {
         // Initialization
         this.controller = controller;
-        listingsPanel = new JPanel(new GridLayout(0,3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
-        listModel = new JPanel(new GridLayout(5,1,10,10));
+        this.allPosts = posts;
+
+        listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
+        listModel = new JPanel(new GridLayout(5, 1, 10, 10));
         scrollPane = new JScrollPane(listingsPanel);
 
         logout = new JButton("Log Out");
@@ -41,41 +44,54 @@ public class BrowseListings extends JPanel {
         electronicsButton = new JButton("Electronics");
         clothingsButton = new JButton("Clothing");
         bagsButton = new JButton("Bags");
+        allButton = new JButton("All");
 
 
-        searchPanel = new JPanel(new GridLayout(5,1,10,10));
+        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
 
+        listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(clothingsButton, constraints(0, 2, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(bagsButton, constraints(0, 3, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+        listModel.add(allButton, constraints(0, 4, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
 
-
-        // listModel.addElement("Accessories");
-        // listModel.addElement("Electronics");
-        // listModel.addElement("Clothing");
-        // listModel.addElement("Bags");
-
-        listModel.add(accessoriesButton, constraints(0,0,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(electronicsButton, constraints(0,1,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(clothingsButton, constraints(0,2,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(bagsButton, constraints(0,3,1,0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        // categories = new JList(listModel);
 
         // Action Listener to switch panels
         logout.addActionListener(event -> {
             controller.showLogin();
         });
 
-        // action Listener for Accessories
+        // action Listener for listing categories
+        accessoriesButton.addActionListener(event -> {
+            filterByCategory("Accessories");
+        });
 
+        bagsButton.addActionListener(event -> {
+            filterByCategory("Bags");
+        });
+
+        clothingsButton.addActionListener(event -> {
+            filterByCategory("Clothing");
+        });
+
+        electronicsButton.addActionListener(event -> {
+            filterByCategory("Electronics");
+        });
+
+        allButton.addActionListener(event -> {
+            filterByCategory("All");
+        });
 
         JLabel title = new JLabel("Campus Lost & Found");
         JPanel footerPanel = new JPanel(new GridBagLayout());
 
         // Further set up of main panel
-        setLayout(new BorderLayout(10,10));
-        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Further set up of parts
-        listingsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10, 10));
+        listingsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -89,18 +105,15 @@ public class BrowseListings extends JPanel {
         // categories.setFont(myFont);
 
 
-
-
-
         // add logout to the footer panel
         // Footer panel forces logout to be at the far right even if the cell its in is weirdly sized
-        footerPanel.add(logout, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.LINE_END));
+        footerPanel.add(logout, constraints(0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_END));
 //        searchPanel.add(categories);
         searchPanel.add(listModel);
 
         // Add everything to the main panel
         add(title, BorderLayout.NORTH);
-        add(scrollPane,BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(footerPanel, BorderLayout.SOUTH);
         add(searchPanel, BorderLayout.WEST);
 
@@ -108,7 +121,23 @@ public class BrowseListings extends JPanel {
         setPosts(posts);
     }
 
-    public void setPosts(List<Post> posts){
+    private void filterByCategory(String category) {
+        List<Post> filteredPosts = new ArrayList<>();
+
+        if (category.equals("All")){
+            filteredPosts = allPosts;
+            setPosts(filteredPosts);
+        }else {
+            for (Post post : allPosts) {
+                if (post.getCategory().equals(category)) {
+                    filteredPosts.add(post);
+                }
+            }
+        }
+        setPosts(filteredPosts);
+    }
+
+    public void setPosts(List<Post> posts) {
         // Initialization
         JLabel emptyLabel = new JLabel("No listings are available");
         emptyLabel.setFont(myFont);
@@ -117,11 +146,11 @@ public class BrowseListings extends JPanel {
         listingsPanel.removeAll();
 
         // If there are no posts, provide feedback. Will also be useful later
-        if(posts.isEmpty()){
+        if (posts.isEmpty()) {
             emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            listingsPanel.add(emptyLabel, constraints(0,0,1,1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START));
-        }else{
-            for(Post post: posts){
+            listingsPanel.add(emptyLabel, constraints(0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START));
+        } else {
+            for (Post post : posts) {
                 // add all the new components. Constraints set on listing earlier forces organization
                 listingsPanel.add(new PostComponent(post));
             }
@@ -134,12 +163,12 @@ public class BrowseListings extends JPanel {
 
     // Helper method stolen from postComponents
     private GridBagConstraints constraints(
-            int column,
-            int row,
-            int width,
-            float weightx,
-            int fill,
-            int anchor
+        int column,
+        int row,
+        int width,
+        float weightx,
+        int fill,
+        int anchor
     ) {
         GridBagConstraints gbc = new GridBagConstraints();
         // Add 5 empty pixels as padding around every component
