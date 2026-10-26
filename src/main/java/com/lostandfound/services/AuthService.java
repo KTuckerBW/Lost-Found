@@ -1,6 +1,7 @@
 package com.lostandfound.services;
 
 import com.lostandfound.model.User;
+import com.lostandfound.repo.DbUserRepository;
 import com.lostandfound.repo.UserRepository;
 import com.password4j.Hash;
 import com.password4j.Password;
@@ -13,25 +14,36 @@ import com.password4j.Password;
  */
 public class AuthService {
 
-    /**
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    public User login(String username, String password) {
-        UserRepository userRepo = new UserRepository();
-        boolean verified = false;
+    private final UserRepository repo;
 
-        if (userRepo.exists(username)) {
-
-            Hash hash = Password.hash(password).addRandomSalt().withArgon2();
-            String hashFromDb = userRepo.findByUsername(username).getPassword();
-
-            verified = Password.check(hash.getResult(), hashFromDb).withArgon2();
-        }
-
-        return verified ? userRepo.findByUsername(username) : null;
+    public AuthService (UserRepository repo){
+       this.repo = repo;
     }
 
+    /**
+     * Verifies the user logic credential is valid by checking
+     * that the username exists, and that the plain text password
+     * will match the hashed password stored when hashed.
+     * @param username
+     * @param password
+     * @return A {@link User} if credentials match, else {@code null}
+     */
+    public User login(String username, String password) {
+        boolean verified = false;
+
+        User user = repo.findByUsername(username);
+        if (user != null) {
+
+            // TODO: needs to return the hashpassword in db, not user object password
+            String hashFromDb = user.getPassword();
+            verified = Password.check(password, hashFromDb).withBcrypt();
+        }
+
+        return verified ? repo.findByUsername(username) : null;
+    }
+
+    void register(String username, String password){
+
+        //TODO: register new users with repo.save(newUser);
+    }
 }

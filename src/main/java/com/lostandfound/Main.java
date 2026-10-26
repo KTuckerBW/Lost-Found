@@ -1,12 +1,14 @@
 package com.lostandfound;
 
-import com.lostandfound.auth.CsvUserAuthenticator;
 import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.db.Database;
 import com.lostandfound.db.DatabaseInitializer;
 import com.lostandfound.model.Post;
 import com.lostandfound.postings.PostGrabber;
 import com.lostandfound.postings.csvPostGrabber;
+import com.lostandfound.repo.DbUserRepository;
+import com.lostandfound.repo.UserRepository;
+import com.lostandfound.services.AuthService;
 import com.lostandfound.ui.ControllerFrame;
 
 import javax.swing.*;
@@ -24,28 +26,32 @@ public class Main {
             setFont();
 
             // Initialize
-
-            UserAuthenticator userAuthenticator = new CsvUserAuthenticator("src/main/resources/UserAccounts.csv");
-            PostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
-
-            List<Post> posts = postGrabber.loadPosts();
             try {
-                new ControllerFrame(userAuthenticator, posts);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                Database db = Database.production();
+                DatabaseInitializer.initialize(db);
+                UserRepository userRepo = new DbUserRepository(db);
+                AuthService authService = new AuthService(userRepo);
+
+                PostGrabber postGrabber = new csvPostGrabber("src/main/resources/LstAndFndListing.csv");
+//              PostRepository postRepo = new PostRepository(db);
+
+                // TODO: replace with postRepo
+                List<Post> posts = postGrabber.loadPosts();
+                try {
+                    new ControllerFrame(authService, posts);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         });
 
-        try {
-            Database db = Database.production();
-            DatabaseInitializer.initialize(db);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     // Set font to something more readable
-    public static void setFont(){
+    public static void setFont() {
         Font myFont = new Font("Tahoma", Font.PLAIN, 20);
         UIDefaults defaultUI = UIManager.getDefaults();
         defaultUI.put("Button.font", myFont);

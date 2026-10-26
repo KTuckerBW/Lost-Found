@@ -14,8 +14,8 @@ import java.awt.*;
 
 public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
-    private AuthService authService;
     private ControllerFrame controller;
+    private AuthService authService;
     private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -24,8 +24,7 @@ public class LoginUI extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginUI(ControllerFrame controller, AuthService authService) {
-        this.userAuthenticator = userAuthenticator;
+    public LoginUI(ControllerFrame controller, AuthService authService ) {
         this.authService = authService;
         this.controller = controller;
         buildPanel();
