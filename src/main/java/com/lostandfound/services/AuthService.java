@@ -1,6 +1,7 @@
 package com.lostandfound.services;
 
 import com.lostandfound.model.User;
+import com.lostandfound.repo.DbUserRepository;
 import com.lostandfound.repo.UserRepository;
 import com.password4j.Hash;
 import com.password4j.Password;
@@ -13,25 +14,28 @@ import com.password4j.Password;
  */
 public class AuthService {
 
-    /**
-     *
-     * @param username
-     * @param password
-     * @return
-     */
+    private final UserRepository repo;
+
+    public AuthService (UserRepository repo){
+       this.repo = repo;
+    }
+
     public User login(String username, String password) {
-        UserRepository userRepo = new UserRepository();
         boolean verified = false;
 
-        if (userRepo.exists(username)) {
+        if (repo.exists(username)) {
 
             Hash hash = Password.hash(password).addRandomSalt().withArgon2();
-            String hashFromDb = userRepo.findByUsername(username).getPassword();
+            String hashFromDb = repo.findByUsername(username).getPassword();
 
             verified = Password.check(hash.getResult(), hashFromDb).withArgon2();
         }
 
-        return verified ? userRepo.findByUsername(username) : null;
+        return verified ? repo.findByUsername(username) : null;
     }
 
+    void register(String username, String password){
+
+        //TODO: register new users with repo.save(newUser);
+    }
 }

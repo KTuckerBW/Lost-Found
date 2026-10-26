@@ -2,30 +2,35 @@ package com.lostandfound.repo;
 
 import com.lostandfound.model.User;
 
-/**
- * This class exists to allow CRUD operations on User
- */
-public class UserRepository {
+import java.util.List;
 
-    public static boolean exists(String username) {
+public interface UserRepository {
 
-        String sql = """
-            SELECT * FROM Users
-            WHERE Username = ?
-            """;
+    /**
+     * Check if username is already taken
+     * @param username
+     * @return true if the username is already taken, false otherwise
+     */
+    boolean exists(String username);
 
-        try {
-           // TODO: implement logic
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
+    /**
+     * Returns the user record corresponding to the username
+     * @param username
+     * @return the user Object if found, and null otherwise
+     */
+    //TODO: return Optional<User> instead to avoid if(!null) block
+    User findByUsername(String username);
 
-    public User findByUsername(String username) {
-        String sql = """
-            """;
-            // TODO: return user record
-        return User;
-    }
+    /**
+     * Makes a new user if it doesn't already exist, otherwise it updates
+     * the existing one
+     * @param user
+     */
+    void save(User user);
+
+    /**
+     * Finds all the registered users
+     * @return a list containing all User records; returns an empty list if no users are found
+     */
+    List<User> findAll();
 }
