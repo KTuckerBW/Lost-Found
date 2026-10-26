@@ -25,6 +25,31 @@ public class PostComponent extends JPanel {
 
     private void buildComponent(){
         // Initialization
+
+        // Inside buildComponent() in PostComponent.java:
+
+        JLabel imageLabel = new JLabel();
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        String photoPath = post.getPhoto();
+        if (photoPath != null && !photoPath.trim().isEmpty()) {
+            // Looks for the image inside an "images" directory at project root
+            java.io.File imgFile = new java.io.File("images/" + photoPath);
+            if (imgFile.exists()) {
+                ImageIcon originalIcon = new ImageIcon(imgFile.getAbsolutePath());
+                // Scale to a clean thumbnail size (e.g., 100x100)
+                Image scaledImg = originalIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                imageLabel.setIcon(new ImageIcon(scaledImg));
+            } else {
+                imageLabel.setText("[No Image]");
+            }
+        } else {
+            imageLabel.setText("[No Image]");
+        }
+
+// Add the imageLabel to your GridBagLayout layout
+        add(imageLabel, constraints(0, 0, 1, 2, GridBagConstraints.NONE, GridBagConstraints.CENTER));
+
         JLabel nameLabel = new JLabel(post.getName());
         JLabel locationLabel = new JLabel(post.getLocation());
         JLabel categoryLabel = new JLabel(post.getCategory());
@@ -179,6 +204,6 @@ public class PostComponent extends JPanel {
     // Test main
     public static void main(String[] args) {
         // Invoke later from Oracle
-       // SwingUtilities.invokeLater(PostComponent::test);
+       SwingUtilities.invokeLater(PostComponent::test);
      }
 }
