@@ -1,0 +1,189 @@
+@startuml
+class com.lostandfound.auth.CsvUserAuthenticator {
+- String filePath
++ User authenticate(String,String)
+- List<Map<String,String>> parseCsv()
+- User toUser(Map<String,String>)
+}
+
+
+class com.lostandfound.services.AuthService {
+- UserRepository repo
++ User login(String,String)
+~ void register(String,String)
+}
+
+
+class com.lostandfound.services.PostService {
+}
+class com.lostandfound.repo.DbUserRepository {
+- Database db
+- Connection conn
++ boolean exists(String)
++ User findByUsername(String)
++ void save(User)
++ List<User> findAll()
+}
+
+
+class com.lostandfound.ui.ControllerFrame {
++ String login
++ String browsing
+- CardLayout cardLayout
+- JPanel mainPanel
++ void showLogin()
++ void showBrowsing()
+}
+
+
+class com.lostandfound.ui.LoginUI {
+- UserAuthenticator userAuthenticator
+- AuthService authService
+- ControllerFrame controller
+- JButton loginButton
+- JLabel usernameLabel
+- JLabel passwordLabel
+- JLabel feedbackLabel
+- JLabel titleLabel
+- JTextField usernameField
+- JPasswordField passwordField
+- GridBagConstraints constraints(int,int,int,int,double,int)
+- void buildPanel()
++ void actionPerformed(ActionEvent)
+- void feedbackTimer(int)
++ JButton getLoginButton()
+}
+
+
+interface com.lostandfound.auth.UserAuthenticator {
+~ User authenticate(String,String)
+}
+
+class com.lostandfound.model.Post {
+- String status
+- String dateOfListing
+- String desc
+- String category
+- String name
+- String expirationDate
+- String userID
+- int productID
+- String photo
+- String valueStatus
+- String location
++ {static} Post of(String,String,String,String,String,String,String,int,String,String,String)
++ {static} Post fromRow(Map<String,Object>)
++ String getStatus()
++ String getDateOfListing()
++ String getDesc()
++ String getCategory()
++ String getName()
++ String getExpirationDate()
++ String getUserID()
++ int getProductID()
++ String getPhoto()
++ String getValueStatus()
++ String getLocation()
++ String toString()
+}
+
+
+interface com.lostandfound.repo.UserRepository {
+~ boolean exists(String)
+~ User findByUsername(String)
+~ void save(User)
+~ List<User> findAll()
+}
+
+class com.lostandfound.Main {
++ {static} void main(String[])
++ {static} void setFont()
+}
+
+class com.lostandfound.postings.csvPostGrabber {
+- String filePath
++ List<Post> posts
++ List<Post> loadPosts()
+- Post toPost(CSVRecord)
+}
+
+
+interface com.lostandfound.postings.PostGrabber {
+~ List<Post> loadPosts()
+}
+
+class com.lostandfound.ui.BrowseListings {
+- ControllerFrame controller
+- List<Post> allPosts
+- JPanel searchPanel
+- JPanel listModel
+- JPanel listingsPanel
+- Font myFont
+- JScrollPane scrollPane
+- JButton logout
+- JButton electronicsButton
+- JButton accessoriesButton
+- JButton clothingsButton
+- JButton bagsButton
+- JButton allButton
+- void filterByCategory(String)
++ void setPosts(List<Post>)
+- GridBagConstraints constraints(int,int,int,float,int,int)
+}
+
+
+class com.lostandfound.model.User {
+- String role
+- String username
+- String password
+- String email
++ {static} User of(String,String,String,String)
++ String getUsername()
++ String getPassword()
++ String getEmail()
++ String getRole()
+}
+
+
+class com.lostandfound.db.Database {
+- String jdbcUrl
++ {static} Database production()
++ Connection getConnection()
+}
+
+
+class com.lostandfound.ui.PostComponent {
+- int previewLength
+- Font myFont
+- Post post
+- JTextArea descriptionArea
+- JButton more
+- String description
+- boolean expanded
+- void buildComponent()
+- String shorten(String,int)
+- GridBagConstraints constraints(int,int,int,float,int,int)
+- void toggleDesc()
++ void setExpanded(Boolean)
++ {static} void test()
++ {static} void main(String[])
+}
+
+
+class com.lostandfound.db.DatabaseInitializer {
++ {static} void initialize(Database)
+}
+
+interface com.lostandfound.repo.PostRepository {
+}
+
+
+com.lostandfound.auth.UserAuthenticator <.. com.lostandfound.auth.CsvUserAuthenticator
+com.lostandfound.repo.UserRepository <|.. com.lostandfound.repo.DbUserRepository
+com.lostandfound.ui.JFrame <|-- com.lostandfound.ui.ControllerFrame
+com.lostandfound.ui.ActionListener <|.. com.lostandfound.ui.LoginUI
+com.lostandfound.ui.JPanel <|-- com.lostandfound.ui.LoginUI
+com.lostandfound.postings.PostGrabber <|.. com.lostandfound.postings.csvPostGrabber
+com.lostandfound.ui.JPanel <|-- com.lostandfound.ui.BrowseListings
+com.lostandfound.ui.JPanel <|-- com.lostandfound.ui.PostComponent
+@enduml

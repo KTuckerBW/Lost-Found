@@ -1,0 +1,57 @@
+@startuml
+'autonumber
+'
+'User -> LoginPanel: click Create Account
+'LoginPanel -> LoginController: showCreateAccountScreen(): void
+'LoginController -> CreateAccountPanel: show(): void
+'
+'User -> CreateAccountPanel: enterDetails(usernmane, password, role)
+'User -> CreateAccountPanel: clickSubmit()
+'CreateAccountPanel -> AuthService: registerUser(UserDto): RegistrationResponse
+'activate AuthService
+'AuthService -> Repo: saveUser(user: User): boolean
+'activate Repo
+'
+'Repo -> Storage: insertUser(record: UserRecord): boolean
+'activate Storage
+'Storage --> Repo: return boolean
+'deactivate Storage
+'
+'Repo --> AuthService: return boolean
+'deactivate Repo
+'
+'AuthService --> CreateAccountPanel: return RegistrationResponse(status, message)
+'deactivate AuthService
+'
+'CreateAccountPanel -> User: displayMessage(response.message)
+
+autonumber
+
+User -> LoginPanel: click Create Account
+LoginPanel -> LoginController: showCreateAccountScreen(): void
+LoginController -> CreateAccountPanel: show(): void
+
+User -> CreateAccountPanel: enterDetails(username, password, role)
+User -> CreateAccountPanel: clickSubmit()
+
+CreateAccountPanel -> CreateAccountController: handleRegistration(UserDto)
+
+CreateAccountController -> AuthService: registerUser(UserDto): RegistrationResponse
+
+AuthService -> AuthService: validateUserDetails(UserDto)
+
+alt is invalid or user exists
+AuthService --> CreateAccountController: return RegistrationResponse(FAIL, errorMsg)
+else is valid
+AuthService -> Repo: saveUser(user: User): boolean
+Repo -> Storage: insertUser(record: UserRecord): boolean
+Storage --> Repo: return boolean
+Repo --> AuthService: return boolean
+AuthService --> CreateAccountController: return RegistrationResponse(SUCCESS, successMsg)
+end
+
+CreateAccountController --> CreateAccountPanel: return RegistrationResponse
+
+CreateAccountPanel -> User: displayMessage(response.message)
+
+@enduml

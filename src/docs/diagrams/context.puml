@@ -1,0 +1,12 @@
+@startuml
+!include shared/actors.iuml
+
+left to right direction
+
+Admin --> System: Create / Edit Posting
+Admin --> System: Approve / Deny Posting
+Student --> System: View / Search Posts (read‑only)
+System --> Student: Returns valid listings
+System <--> DB: Store / Retrieve Post Data
+System <--> DB: Store / Retrieve User Data
+@enduml
