@@ -42,7 +42,7 @@ public class AuthService {
         return verified ? repo.findByUsername(username) : null;
     }
 
-    void register(String username, String password){
+    void register(String role, String username, String password, String email){
 
         //TODO: register new users with repo.save(newUser);
     }
