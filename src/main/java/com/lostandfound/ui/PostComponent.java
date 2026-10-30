@@ -152,7 +152,6 @@ public class PostComponent extends JPanel {
                 "Water Bottle",
                 "2026-10-28",
                 1,
-                101,
                 "hydroflask.jpg",
                 "Standard",
                 "DMF"

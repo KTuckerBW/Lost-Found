@@ -2,73 +2,59 @@ import com.lostandfound.db.Database;
 import com.lostandfound.db.DatabaseInitializer;
 import com.lostandfound.model.Post;
 import com.lostandfound.repo.DbPostsRepository;
-import com.lostandfound.ui.PostComponent;
 
-import javax.swing.*;
-import java.awt.*;
+
 import java.sql.SQLException;
-import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class PostTest {
-    public static void main(String[] args) {
-        // Try to open the database
-        try {
-            // Initialization
-            Database db = Database.production();
-            DatabaseInitializer.initialize(db);
+    // Initialization
+    private DbPostsRepository myRepo;
+    private Post testPost;
 
-            DbPostsRepository repo = new DbPostsRepository(db);
+    @BeforeEach
+    public void createDb() throws SQLException {
+        // Initialize the test data and the db
+        Database db = Database.production();
+        DatabaseInitializer.initialize(db);
+        myRepo = new DbPostsRepository(db);
+        testPost = new Post(
+                "Unclaimed",
+                "2026-09-28",
+                "Black Hydroflask" ,
+                "Accessories",
+                "Water Bottle",
+                "2026-10-28",
+                3,
+                "hydroflask.jpg",
+                "Standard",
+                "DMF");
+    }
 
-            // Test the findAll() then test the category
-            List<Post> allPosts = repo.findAll();
-            List<Post> searchPosts = repo.searchCategory("Technology");
+    @Test
+    public void testSaveQueryDb(){
+        // get the productID while saving the post into the database
+        long ID = myRepo.save(testPost);
+        Post dbPost = myRepo.findListing(ID);
 
+        // Do the actual retrieval checks
+        assertEquals("Unclaimed", dbPost.getStatus());
+        assertEquals("2026-09-28", dbPost.getDateOfListing());
+        assertEquals("Black Hydroflask", dbPost.getDesc());
+        assertEquals("Accessories", dbPost.getCategory());
+        assertEquals("Water Bottle", dbPost.getName());
+        assertEquals("2026-10-28",dbPost.getExpirationDate());
+        assertEquals(3, dbPost.getUserID());
+        assertEquals("hydroflask.jpg", dbPost.getPhoto());
+        assertEquals("Standard", dbPost.getValueStatus());
+        assertEquals("DMF", dbPost.getLocation());
 
-            // Is there any data at all?
-            if(allPosts.isEmpty()){
-                System.out.println("NO DATA :(");
-                return;
-            }
+        // Check the original post type too, code should update the productID in the original
+        assertEquals(ID, testPost.getProductID());
 
-            // Is category working?
-            if(searchPosts.isEmpty()){
-                System.out.println("Search no work");
-            }
-
-            // Create an invokeLater to test postsComp
-            SwingUtilities.invokeLater(() -> {
-                // Initialization
-                JFrame testFrame = new JFrame("Post Test");
-                JPanel cardHolder = new JPanel();
-                JScrollPane scrollPane = new JScrollPane(cardHolder);
-
-                // Config
-                testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                testFrame.setContentPane(scrollPane);
-                testFrame.setSize(500, 600);
-                testFrame.setLocationRelativeTo(null);
-
-                // Stack everything vertically just to see it
-                cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.Y_AXIS));
-                cardHolder.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-                // put the components into place
-                for (Post post : allPosts) {
-                    // create comps and add them
-                    cardHolder.add(new PostComponent(post));
-
-                    // padding
-                    cardHolder.add(Box.createRigidArea(new Dimension(0, 10)));
-
-                }
-
-                // Set visible
-                testFrame.setVisible(true);
-            });
-
-        } catch (SQLException e) {
-            System.err.println("Failure!");
-            e.printStackTrace();
-        }
     }
 }
