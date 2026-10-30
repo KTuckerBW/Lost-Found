@@ -65,7 +65,6 @@ public class csvPostGrabber implements PostGrabber {
                record.get("ProductName"),
                record.get("ExpirationDate"),
                Integer.parseInt(record.get("UserID")),
-               Integer.parseInt(record.get("ProductID")),
                record.get("Photo"),
                record.get("ValueStatus"),
                record.get("Location")
