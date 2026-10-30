@@ -11,6 +11,95 @@ public class DbPostsRepository implements PostRepository{
         this.db = db;
     }
 
+    // Save a new post into the database
+    public long save(Post post){
+        String sql = """ 
+               INSERT OR IGNORE INTO Listings (
+               status,
+               date_listed,
+               description,
+               category,
+               product_name,
+               expiration_date,
+               user_id,
+               photo,
+               value_status,
+               location)
+               VALUES
+               (?,?,?,?,?,?,?,?,?,?);
+                """;
+        try (Connection conn = db.getConnection()){
+            // Compile
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // Assign vars
+
+            ps.setString(1,post.getStatus());
+            ps.setString(2, post.getDateOfListing());
+            ps.setString(3, post.getDesc());
+            ps.setString(4,post.getCategory());
+            ps.setString(5,post.getName());
+            ps.setString(6, post.getExpirationDate());
+            ps.setInt(7, post.getUserID());
+            ps.setString(8,post.getPhoto());
+            ps.setString(9,post.getValueStatus());
+            ps.setString(10,post.getLocation());
+
+            // Check to see if a new row was actually created, prevents dupe data
+            int isNewRow = ps.executeUpdate();
+            if (isNewRow>0){
+                try(ResultSet rs = ps.getGeneratedKeys()){
+                    if(rs.next()){
+                        long ID = rs.getLong(1);
+                        post.setProductID(ID);
+                        return ID;
+                    }
+                }
+            // This would have been duped data, so send back the row that alr exists
+            }else{
+                sql = "SELECT listing_id FROM listings WHERE product_name = ? AND user user_id = ? AND date_listed = ?";
+                // Compile
+                ps = conn.prepareStatement(sql);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()){
+                        long ID = rs.getLong(1);
+                        post.setProductID(ID);
+                        return ID;
+                    }
+                }
+            }
+            // If we have made it this far w/o seeing the productID then something has gone terribly wrong
+            throw new SQLException("SEEK HELP");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    // Search the DB for a single post based on the ID
+    // Needed this for debug
+    public Post findListing(long ID){
+        // Initialization
+        String sql = "SELECT * FROM Listings WHERE listing_id = ?";
+        Post post = new Post();
+
+        try(Connection conn = db.getConnection()){
+            // Compile
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // Insert the ID
+            ps.setLong(1, ID);
+            // Try to query
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    post = rowToPost(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return post;
+    }
+
+
     // Searches for all posts
     public List<Post> findAll(){
         // Initialization
@@ -66,11 +155,6 @@ public class DbPostsRepository implements PostRepository{
         }
         return posts;
     }
-
-
-
-
-
 
 
 
