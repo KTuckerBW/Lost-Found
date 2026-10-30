@@ -26,7 +26,6 @@ public class BrowseListings extends JPanel {
     private JButton bagsButton;
     private JButton allButton;
 
-
     // private JList categories;
 
 
@@ -45,19 +44,27 @@ public class BrowseListings extends JPanel {
         electronicsButton = new JButton("Electronics");
         clothingsButton = new JButton("Clothing");
         bagsButton = new JButton("Bags");
+        allButton = new JButton("All");
 
         allButton = new JButton("All");
 
+<<<<<<< HEAD
 
 
         searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
 
+=======
+        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+
+
+>>>>>>> e876e2d5d0946cc57443834bfb3ad60343a73b02
         listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(clothingsButton, constraints(0, 2, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(bagsButton, constraints(0, 3, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(allButton, constraints(0, 4, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+<<<<<<< HEAD
 
 
 
@@ -68,6 +75,10 @@ public class BrowseListings extends JPanel {
         // categories = new JList(listModel);
 
 
+=======
+
+
+>>>>>>> e876e2d5d0946cc57443834bfb3ad60343a73b02
         // Action Listener to switch panels
         logout.addActionListener(event -> {
             controller.showLogin();
@@ -133,6 +144,7 @@ public class BrowseListings extends JPanel {
     }
 
     private void filterByCategory(String category) {
+<<<<<<< HEAD
         if (category.equalsIgnoreCase("All")) {
             setPosts(allPosts);
             return;
@@ -147,6 +159,20 @@ public class BrowseListings extends JPanel {
             }
         }
 
+=======
+        List<Post> filteredPosts = new ArrayList<>();
+
+        if (category.equals("All")){
+            filteredPosts = allPosts;
+            setPosts(filteredPosts);
+        }else {
+            for (Post post : allPosts) {
+                if (post.getCategory().equals(category)) {
+                    filteredPosts.add(post);
+                }
+            }
+        }
+>>>>>>> e876e2d5d0946cc57443834bfb3ad60343a73b02
         setPosts(filteredPosts);
     }
 
