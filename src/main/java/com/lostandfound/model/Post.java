@@ -10,7 +10,7 @@ public class Post {
     private String name;
     private String expirationDate;
     private int userID;
-    private int productID;
+    private long productID;
     private String photo;
     private String valueStatus;
     private String location;
@@ -31,7 +31,7 @@ public class Post {
     }
 
     // Explicit Constructor
-    public Post(String status, String dateOfListing, String desc, String category, String name, String expirationDate, int userID, int productID, String photo,String valueStatus, String location){
+    public Post(String status, String dateOfListing, String desc, String category, String name, String expirationDate, int userID, String photo,String valueStatus, String location){
         this.status = status;
         this.dateOfListing = dateOfListing;
         this.desc = desc;
@@ -39,7 +39,6 @@ public class Post {
         this.name = name;
         this.expirationDate = expirationDate;
         this.userID = userID;
-        this.productID = productID;
         this.photo=photo;
         this.valueStatus = valueStatus;
         this.location = location;
@@ -70,7 +69,6 @@ public class Post {
             String name,
             String expirationDate,
             int userID,
-            int productID,
             String photo,
             String valueStatus,
             String location)
@@ -83,7 +81,6 @@ public class Post {
                 name,
                 expirationDate,
                 userID,
-                productID,
                 photo,
                 valueStatus,
                 location);
@@ -116,7 +113,7 @@ public class Post {
     public int getUserID(){
         return userID;
     }
-    public int getProductID(){
+    public long getProductID(){
         return productID;
     }
     public String getPhoto(){
@@ -151,7 +148,7 @@ public class Post {
     public void setUserID(int ID){
         this.userID = ID;
     }
-    public void setProductID(int ID){
+    public void setProductID(long ID){
         this.productID = ID;
     }
     public void setPhoto(String photo){
