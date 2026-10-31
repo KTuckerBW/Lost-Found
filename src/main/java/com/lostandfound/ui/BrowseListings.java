@@ -26,9 +26,6 @@ public class BrowseListings extends JPanel {
     private JButton bagsButton;
     private JButton allButton;
 
-    // private JList categories;
-
-
     // Turning BrowseListings into a panel to work with controller Frame
     public BrowseListings(ControllerFrame controller, List<Post> posts) {
         // Initialization
@@ -46,9 +43,7 @@ public class BrowseListings extends JPanel {
         bagsButton = new JButton("Bags");
         allButton = new JButton("All");
 
-        allButton = new JButton("All");
         searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
 
         listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
@@ -101,13 +96,9 @@ public class BrowseListings extends JPanel {
         // Fonts
         title.setFont(myFont.deriveFont(Font.BOLD, 24));
         logout.setFont(myFont);
-        // categories.setFont(myFont);
-
 
         // add logout to the footer panel
-        // Footer panel forces logout to be at the far right even if the cell its in is weirdly sized
         footerPanel.add(logout, constraints(0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_END));
-//        searchPanel.add(categories);
         searchPanel.add(listModel);
 
         // Add everything to the main panel
@@ -163,12 +154,12 @@ public class BrowseListings extends JPanel {
 
     // Helper method stolen from postComponents
     private GridBagConstraints constraints(
-        int column,
-        int row,
-        int width,
-        float weightx,
-        int fill,
-        int anchor
+            int column,
+            int row,
+            int width,
+            float weightx,
+            int fill,
+            int anchor
     ) {
         GridBagConstraints gbc = new GridBagConstraints();
         // Add 5 empty pixels as padding around every component
