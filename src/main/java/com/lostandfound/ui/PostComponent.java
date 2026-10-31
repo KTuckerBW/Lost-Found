@@ -151,37 +151,42 @@ public class PostComponent extends JPanel {
     }
 
     // Test display
-//    public static void test(){
-//        Post testPost = Post.of(
-//                "Unclaimed",
-//                "2026-09-28",
-//                "Black Hydroflask with a silver lid and a small dent near the bottom.",
-//                "Accessories",
-//                "Water Bottle",
-//                "2026-10-28",
-//                "DMFAdmin",
-//                101,
-//                "hydroflask.jpg, airpodspro3rdgeneration.jpg",
-//                "Standard",
-//                "DMF"
-//        );
-//
-//        JFrame frame = new JFrame("Post Component Test");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        JPanel container = new JPanel(new BorderLayout());
-//        container.setBorder(
-//                BorderFactory.createEmptyBorder(10, 10, 10, 10));
-//        container.add(new PostComponent(testPost), BorderLayout.CENTER);
-//
-//        frame.setContentPane(container);
-//        frame.setSize(550, 400);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//    }
 
-    // Test main
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(PostComponent::test);
-//    }
+    public static void test(){
+        // Singular test post
+        Post testPost = Post.of(
+                "Unclaimed",
+                "2026-09-28",
+                "Black Hydroflask with a silver lid and a small dent near the bottom.",
+                "Accessories",
+                "Water Bottle",
+                "2026-10-28",
+                1,
+                "hydroflask.jpg",
+                "Standard",
+                "DMF"
+        );
+        // singular frame just to display this component
+        JFrame frame = new JFrame("Post Component Test");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // panel made just to display this component and its parts
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBorder(
+                BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        container.add(new PostComponent(testPost), BorderLayout.CENTER);
+
+        // Hard coded size, location is centering, and visibility is only required here
+        // because there is no "main panel" which holds all the components. In the GUI the
+        // main panel would be set to visible
+        frame.setContentPane(container);
+        frame.setSize(450, 350);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+  
+    Test main
+   public static void main(String[] args) {
+       SwingUtilities.invokeLater(PostComponent::test);
+   }
 }
