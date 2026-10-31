@@ -43,25 +43,14 @@ public class BrowseListings extends JPanel {
         bagsButton = new JButton("Bags");
         allButton = new JButton("All");
 
-<<<<<<< HEAD
         searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
-=======
-
-        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
-
->>>>>>> 59faaf95c64ede46e1c3d01f257d5cbfa31c67c5
         listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(clothingsButton, constraints(0, 2, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(bagsButton, constraints(0, 3, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(allButton, constraints(0, 4, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 59faaf95c64ede46e1c3d01f257d5cbfa31c67c5
         // Action Listener to switch panels
         logout.addActionListener(event -> {
             controller.showLogin();
@@ -123,7 +112,6 @@ public class BrowseListings extends JPanel {
     }
 
     private void filterByCategory(String category) {
-<<<<<<< HEAD
         if (category.equalsIgnoreCase("All")) {
             setPosts(allPosts);
             return;
@@ -135,18 +123,6 @@ public class BrowseListings extends JPanel {
             if (post.getCategory() != null
                     && post.getCategory().equalsIgnoreCase(category)) {
                 filteredPosts.add(post);
-=======
-        List<Post> filteredPosts = new ArrayList<>();
-
-        if (category.equals("All")){
-            filteredPosts = allPosts;
-            setPosts(filteredPosts);
-        }else {
-            for (Post post : allPosts) {
-                if (post.getCategory().equals(category)) {
-                    filteredPosts.add(post);
-                }
->>>>>>> 59faaf95c64ede46e1c3d01f257d5cbfa31c67c5
             }
         }
         setPosts(filteredPosts);
@@ -199,3 +175,4 @@ public class BrowseListings extends JPanel {
         return gbc;
     }
 }
+
