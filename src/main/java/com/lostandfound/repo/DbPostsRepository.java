@@ -156,8 +156,6 @@ public class DbPostsRepository implements PostRepository{
         return posts;
     }
 
-
-
     // Helper method for turning rows into a Post
     private Post rowToPost(ResultSet rs) throws SQLException{
         // Initialization
