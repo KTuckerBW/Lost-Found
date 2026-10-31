@@ -143,7 +143,7 @@ public class PostComponent extends JPanel {
     }
     // Test display
     public static void test(){
-        // Singular test post (can be added to all our data later)
+        // Singular test post
         Post testPost = Post.of(
                 "Unclaimed",
                 "2026-09-28",
@@ -151,8 +151,7 @@ public class PostComponent extends JPanel {
                 "Accessories",
                 "Water Bottle",
                 "2026-10-28",
-                "DMFAdmin",
-                101,
+                1,
                 "hydroflask.jpg",
                 "Standard",
                 "DMF"
