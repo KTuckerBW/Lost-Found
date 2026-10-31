@@ -9,29 +9,14 @@ public class Post {
     private String category;
     private String name;
     private String expirationDate;
-    private int userID;
+    private String userID;
     private int productID;
     private String photo;
     private String valueStatus;
     private String location;
 
-    // Implicit Constructor
-    public Post(){
-        this.status = null;
-        this.dateOfListing = null;
-        this.desc = null;
-        this.category = null;
-        this.name = null;
-        this.expirationDate = null;
-        this.userID = 0;
-        this.productID = 0;
-        this.photo= null;
-        this.valueStatus = null;
-        this.location = null;
-    }
-
-    // Explicit Constructor
-    public Post(String status, String dateOfListing, String desc, String category, String name, String expirationDate, int userID, int productID, String photo,String valueStatus, String location){
+    // Default constructor
+    private Post(String status, String dateOfListing, String desc, String category, String name, String expirationDate, String userID, int productID, String photo,String valueStatus, String location){
         this.status = status;
         this.dateOfListing = dateOfListing;
         this.desc = desc;
@@ -54,7 +39,7 @@ public class Post {
         this.category = (String) row.get("Category");
         this.name = (String) row.get("ProductName");
         this.expirationDate = (String) row.get("ExpirationDate");
-        this.userID = (Integer) row.get("UserID");
+        this.userID = (String) row.get("UserID");
         this.productID = (Integer) row.get("ProductID");
         this.photo= (String) row.get("Photo");
         this.valueStatus = (String) row.get("ValueStatus");
@@ -69,7 +54,7 @@ public class Post {
             String category,
             String name,
             String expirationDate,
-            int userID,
+            String userID,
             int productID,
             String photo,
             String valueStatus,
@@ -113,7 +98,7 @@ public class Post {
     public String getExpirationDate(){
         return expirationDate;
     }
-    public int getUserID(){
+    public String getUserID(){
         return userID;
     }
     public int getProductID(){
@@ -127,41 +112,6 @@ public class Post {
     }
     public String getLocation(){
         return location;
-    }
-
-    // Mutators methods
-    public void setStatus(String status){
-        this.status = status;
-    }
-    public void setDateOfListing(String date){
-        this.dateOfListing = date;
-    }
-    public void setDesc(String desc){
-        this.desc = desc;
-    }
-    public void setCategory(String category){
-        this.category = category;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-    public void setExpirationDate(String date){
-        this.expirationDate = date;
-    }
-    public void setUserID(int ID){
-        this.userID = ID;
-    }
-    public void setProductID(int ID){
-        this.productID = ID;
-    }
-    public void setPhoto(String photo){
-        this.photo = photo;
-    }
-    public void setValueStatus(String value){
-        this.valueStatus = value;
-    }
-    public void setLocation(String location){
-        this.location = location;
     }
 
     // Override the toString function so I can read this data

@@ -6,7 +6,6 @@ package com.lostandfound.ui; /**
 
 import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.model.User;
-import com.lostandfound.services.AuthService;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -15,7 +14,6 @@ import java.awt.*;
 public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
     private ControllerFrame controller;
-    private AuthService authService;
     private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -24,8 +22,8 @@ public class LoginUI extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginUI(ControllerFrame controller, AuthService authService ) {
-        this.authService = authService;
+    public LoginUI(ControllerFrame controller, UserAuthenticator userAuthenticator) {
+        this.userAuthenticator = userAuthenticator;
         this.controller = controller;
         buildPanel();
     }
@@ -104,7 +102,7 @@ public class LoginUI extends JPanel implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = authService.login(username, typedPassword);
+        User user = userAuthenticator.authenticate(username, typedPassword);
         if (user != null) {
             // Display a success window
             feedbackLabel.setText("Login successful! :)");
