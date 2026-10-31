@@ -20,9 +20,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Allows the finalDB to recognize db
-
-
         // Using invoke later because swing is thread unsafe
         setFont();
         SwingUtilities.invokeLater(() -> {
@@ -34,8 +31,6 @@ public class Main {
                 UserRepository userRepo = new DbUserRepository(db);
                 PostRepository postRepo = new DbPostsRepository(db);
                 AuthService authService = new AuthService(userRepo);
-
-
 
                 // Initialize the posts list by using findAll method
                 List<Post> posts = postRepo.findAll();
