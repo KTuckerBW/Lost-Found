@@ -1,9 +1,7 @@
 package com.lostandfound.services;
 
 import com.lostandfound.model.User;
-import com.lostandfound.repo.DbUserRepository;
 import com.lostandfound.repo.UserRepository;
-import com.password4j.Hash;
 import com.password4j.Password;
 
 /**
@@ -12,11 +10,11 @@ import com.password4j.Password;
  * <p>Ui --> Services --> Repositories</p>
  *
  */
-public class AuthService {
+public class UserService {
 
     private final UserRepository repo;
 
-    public AuthService (UserRepository repo){
+    public UserService(UserRepository repo){
        this.repo = repo;
     }
 
@@ -34,7 +32,6 @@ public class AuthService {
         User user = repo.findByUsername(username);
         if (user != null) {
 
-            // TODO: needs to return the hashpassword in db, not user object password
             String hashFromDb = user.getPassword();
             verified = Password.check(password, hashFromDb).withBcrypt();
         }
@@ -44,6 +41,19 @@ public class AuthService {
 
     void register(String role, String username, String password, String email){
 
-        //TODO: register new users with repo.save(newUser);
+        // Todo: figure out a way to handle existing user. Maybe return a error to the ui layer
+        if (repo.exists(username)){return;}
+        String hashedPassword = hashPassword(password);
+        User newUser = User.of(
+            role,
+            username,
+            password,
+            email
+        );
+        repo.save(newUser);
+    }
+
+    private String hashPassword(String plaintext){
+       return Password.hash(plaintext).withBcrypt().getResult();
     }
 }

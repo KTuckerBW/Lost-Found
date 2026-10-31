@@ -6,7 +6,7 @@ package com.lostandfound.ui; /**
 
 import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.model.User;
-import com.lostandfound.services.AuthService;
+import com.lostandfound.services.UserService;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -15,7 +15,7 @@ import java.awt.*;
 public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
     private ControllerFrame controller;
-    private AuthService authService;
+    private UserService userService;
     private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -24,13 +24,13 @@ public class LoginUI extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginUI(ControllerFrame controller, AuthService authService ) {
-        this.authService = authService;
+    public LoginUI(ControllerFrame controller, UserService userService) {
+        this.userService = userService;
         this.controller = controller;
         buildPanel();
     }
 
-    /*
+    /**
      * Creates a new constraints object for each component so layout settings do not carry
      * over from one component to the next. Much easier to add them to panel
      */
@@ -104,7 +104,7 @@ public class LoginUI extends JPanel implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = authService.login(username, typedPassword);
+        User user = userService.login(username, typedPassword);
         if (user != null) {
             // Display a success window
             feedbackLabel.setText("Login successful! :)");
@@ -134,7 +134,7 @@ public class LoginUI extends JPanel implements ActionListener {
         typedPassword = "";
     }
 
-    /*
+    /**
      * Helper method to hide the feedback banner after some odd seconds
      */
     private void feedbackTimer(int milliseconds) {
