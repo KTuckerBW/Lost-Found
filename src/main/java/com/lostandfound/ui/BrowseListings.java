@@ -16,6 +16,8 @@ public class BrowseListings extends JPanel {
 
     private JPanel listModel;
     private JPanel listingsPanel;
+    private JPanel headerPanel;
+    private JPanel footerPanel;
     private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JScrollPane scrollPane;
 
@@ -25,19 +27,32 @@ public class BrowseListings extends JPanel {
     private JButton clothingsButton;
     private JButton bagsButton;
     private JButton allButton;
-
-    // private JList categories;
+    private JButton createPost;
 
 
     // Turning BrowseListings into a panel to work with controller Frame
     public BrowseListings(ControllerFrame controller, List<Post> posts) {
+        // Set up of main panel
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         // Initialization
         this.controller = controller;
         this.allPosts = posts;
 
+        headerPanel = new JPanel();
+        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
         listModel = new JPanel(new GridLayout(5, 1, 10, 10));
         scrollPane = new JScrollPane(listingsPanel);
+        footerPanel = new JPanel(new GridBagLayout());
+
+        // Overlay layout lets title be centered while the button is all the way to the right
+        headerPanel.setLayout(new OverlayLayout(headerPanel));
+
+        JPanel centerTitle = new JPanel(new GridBagLayout());
+        JPanel postPanel = new JPanel(new GridBagLayout());
+
 
         logout = new JButton("Log Out");
         accessoriesButton = new JButton("Accessories");
@@ -45,16 +60,15 @@ public class BrowseListings extends JPanel {
         clothingsButton = new JButton("Clothing");
         bagsButton = new JButton("Bags");
         allButton = new JButton("All");
-
-        allButton = new JButton("All");
-        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
+        createPost = new JButton("+");
 
         listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(clothingsButton, constraints(0, 2, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(bagsButton, constraints(0, 3, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
         listModel.add(allButton, constraints(0, 4, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
+
+        JLabel title = new JLabel("Campus Lost & Found");
 
         // Action Listener to switch panels
         logout.addActionListener(event -> {
@@ -82,17 +96,16 @@ public class BrowseListings extends JPanel {
             filterByCategory("All");
         });
 
-        JLabel title = new JLabel("Campus Lost & Found");
-        JPanel footerPanel = new JPanel(new GridBagLayout());
+        // Set up of centered title
+        centerTitle.setOpaque(false);
+        centerTitle.add(title, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.CENTER));
 
-        // Further set up of main panel
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Set up of right most button
+        postPanel.setOpaque(false);
+        postPanel.add(createPost, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.EAST));
 
-        // Further set up of parts
-        listingsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        title.setHorizontalAlignment(SwingConstants.CENTER);
+        headerPanel.add(centerTitle);
+        headerPanel.add(postPanel);
 
         // Fix the cooked scrolling
         scrollPane.getVerticalScrollBar().setUnitIncrement(25);
@@ -101,22 +114,20 @@ public class BrowseListings extends JPanel {
         // Fonts
         title.setFont(myFont.deriveFont(Font.BOLD, 24));
         logout.setFont(myFont);
-        // categories.setFont(myFont);
 
-
-        // add logout to the footer panel
-        // Footer panel forces logout to be at the far right even if the cell its in is weirdly sized
+        // add logout to the footerPanel
+        // footerPanel forces logout to be at the far right even if the cell its in is weirdly sized
         footerPanel.add(logout, constraints(0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_END));
-//        searchPanel.add(categories);
         searchPanel.add(listModel);
 
         // Add everything to the main panel
-        add(title, BorderLayout.NORTH);
+        add(headerPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-        add(footerPanel, BorderLayout.SOUTH);
         add(searchPanel, BorderLayout.WEST);
+        add(footerPanel, BorderLayout.SOUTH);
 
-        // also kinda an adding stuff
+
+        // Adding posts
         setPosts(posts);
     }
 
