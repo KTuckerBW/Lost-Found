@@ -25,7 +25,7 @@ public class PostComponent extends JPanel {
 
     private void buildComponent(){
         setLayout(new GridBagLayout());
-        setBackground(Color.WHITE);
+//        setBackground(Color.WHITE);
 
         // A compound border allows us to make an outline around the post card and add padding
         setBorder(BorderFactory.createCompoundBorder(
@@ -185,7 +185,8 @@ public class PostComponent extends JPanel {
         frame.setVisible(true);
     }
   
-    Test main
+
+//    Test main
    public static void main(String[] args) {
        SwingUtilities.invokeLater(PostComponent::test);
    }
