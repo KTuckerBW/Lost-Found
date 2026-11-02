@@ -1,5 +1,9 @@
 package com.lostandfound;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.lostandfound.auth.CsvUserAuthenticator;
+import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.db.Database;
 import com.lostandfound.db.DatabaseInitializer;
 import com.lostandfound.model.Post;
@@ -19,6 +23,7 @@ public class Main {
     public static void main(String[] args) {
         // Using invoke later because swing is thread unsafe
         setFont();
+        FlatDarculaLaf.setup();
         SwingUtilities.invokeLater(() -> {
             Database db = null;
             // Initialize the database first
