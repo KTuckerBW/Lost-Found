@@ -15,30 +15,17 @@ import java.util.List;
 // Adding a CSV lib to handle long descriptions
 // It's now a dependency in the pom.xml file
 
-public class csvPostGrabber {
+public class csvPostGrabber implements PostGrabber {
     // Initialization
     private final String filePath;
     public List<Post> posts = new ArrayList<>();
-
-    // Makes parsing less annoying
-    private static final List<String> postColumns = List.of(
-            "UserID",
-            "ProductName",
-            "Photo",
-            "Description",
-            "Location",
-            "Category",
-            "Status",
-            "DateOfListing",
-            "ExpirationDate",
-            "ValueStatus"
-    );
 
     public csvPostGrabber(String filePath) {
         this.filePath = filePath;
     }
 
     // Load posts into an array to use later
+    @Override
     public List<Post> loadPosts() {
         // Initialization
         List<Post> posts = new ArrayList<>();
@@ -77,8 +64,7 @@ public class csvPostGrabber {
                record.get("Category"),
                record.get("ProductName"),
                record.get("ExpirationDate"),
-               record.get("UserID"),
-               Integer.parseInt(record.get("ProductID")),
+               Integer.parseInt(record.get("UserID")),
                record.get("Photo"),
                record.get("ValueStatus"),
                record.get("Location")

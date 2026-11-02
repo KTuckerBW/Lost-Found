@@ -7,6 +7,7 @@ package com.lostandfound.ui; /**
 import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.model.User;
 import com.lostandfound.ui.CreateAccount;
+import com.lostandfound.services.AuthService;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -15,6 +16,7 @@ import java.awt.*;
 public class LoginUI extends JPanel implements ActionListener {
     private UserAuthenticator userAuthenticator;
     private ControllerFrame controller;
+    private AuthService authService;
     private JButton loginButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -24,8 +26,8 @@ public class LoginUI extends JPanel implements ActionListener {
     private JPasswordField passwordField;
     private JButton createAccountButton;
 
-    public LoginUI(ControllerFrame controller, UserAuthenticator userAuthenticator) {
-        this.userAuthenticator = userAuthenticator;
+    public LoginUI(ControllerFrame controller, AuthService authService ) {
+        this.authService = authService;
         this.controller = controller;
         buildPanel();
     }
@@ -101,6 +103,13 @@ public class LoginUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == createAccountButton){//Opens the Create Account page when the Create Account Button is Pushed
+            new CreateAccount(controller);//passes the controller so CreateAccount can bring back the Login window
+            controller.dispose();//closes Login window
+            return;
+        }
+
         String username = usernameField.getText();
 
         // grab the password. But since it's swings password field it returns as an array of chars
@@ -108,8 +117,8 @@ public class LoginUI extends JPanel implements ActionListener {
         String typedPassword = new String(passwordField.getPassword());
 
         // Authenticate users regardless of the data origin: file or database
-        User user = userAuthenticator.authenticate(username, typedPassword);
-        if (username != null || e.getSource() == createAccountButton) {
+        User user = authService.login(username, typedPassword);
+        if (user != null){
             // Display a success window
             feedbackLabel.setText("Login successful! :)");
             feedbackLabel.setBackground(Color.GREEN);
@@ -132,10 +141,6 @@ public class LoginUI extends JPanel implements ActionListener {
             passwordField.setText("");
 
 
-        }
-        if (e.getSource() == createAccountButton){//Opens the Create Account page when the Create Account Button is Pushed
-            new CreateAccount(controller);//passes the controller so CreateAccount can bring back the Login window
-            controller.dispose();//closes Login window
         }
         // overwrite sensitive data
         typedPassword = "";
