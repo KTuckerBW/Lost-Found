@@ -36,6 +36,8 @@ public class DbUserRepository implements UserRepository {
     }
 
     public User findByUsername(String username) {
+        if (!exists(username)) return null;
+
         String sql = "SELECT role, username, password, email FROM Users WHERE username = ?";
 
         try (Connection conn = db.getConnection();
@@ -80,7 +82,6 @@ public class DbUserRepository implements UserRepository {
 
     @Override
     public List<UserPublic> findAll() {
-        // TODO
         List<UserPublic> users = new ArrayList<>();
 
         String sql = "SELECT * FROM users";
