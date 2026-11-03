@@ -1,4 +1,4 @@
-package com.lostandfound.ui;// Nina Aubourg
+package com.lostandfound.ui;
 // Comp 390
 // Browse listings page where users can browse their lost and found items
 
@@ -18,6 +18,9 @@ public class BrowseListings extends JPanel {
     private JPanel listingsPanel;
     private JPanel headerPanel;
     private JPanel footerPanel;
+    private JPanel addPostPanel;
+    private JPanel centerTitle;
+
     private Font myFont = new Font("Tahoma", Font.PLAIN, 20);
     private JScrollPane scrollPane;
 
@@ -33,25 +36,27 @@ public class BrowseListings extends JPanel {
     // Turning BrowseListings into a panel to work with controller Frame
     public BrowseListings(ControllerFrame controller, List<Post> posts) {
         // Set up of main panel
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Initialization
+        JLabel title = new JLabel("Campus Lost & Found");
+
         this.controller = controller;
         this.allPosts = posts;
 
         headerPanel = new JPanel();
-        searchPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        searchPanel = new JPanel(new GridBagLayout());
         listingsPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // allows dynamic sizing with auto sorting, 3 across and infinite down
-        listModel = new JPanel(new GridLayout(5, 1, 10, 10));
+        listModel = new JPanel(new GridBagLayout());
         scrollPane = new JScrollPane(listingsPanel);
         footerPanel = new JPanel(new GridBagLayout());
 
         // Overlay layout lets title be centered while the button is all the way to the right
         headerPanel.setLayout(new OverlayLayout(headerPanel));
 
-        JPanel centerTitle = new JPanel(new GridBagLayout());
-        JPanel postPanel = new JPanel(new GridBagLayout());
+        centerTitle = new JPanel(new GridBagLayout());
+        addPostPanel = new JPanel(new GridBagLayout());
 
 
         logout = new JButton("Log Out");
@@ -62,13 +67,11 @@ public class BrowseListings extends JPanel {
         allButton = new JButton("All");
         createPost = new JButton("+");
 
-        listModel.add(accessoriesButton, constraints(0, 0, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(electronicsButton, constraints(0, 1, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(clothingsButton, constraints(0, 2, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(bagsButton, constraints(0, 3, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-        listModel.add(allButton, constraints(0, 4, 1, 0, GridBagConstraints.NONE, GridBagConstraints.LINE_START));
-
-        JLabel title = new JLabel("Campus Lost & Found");
+        listModel.add(accessoriesButton, constraints(0, 0, 1, 1,1, GridBagConstraints.BOTH, GridBagConstraints.LINE_START));
+        listModel.add(electronicsButton, constraints(0, 1, 1, 0,1, GridBagConstraints.BOTH, GridBagConstraints.LINE_START));
+        listModel.add(clothingsButton, constraints(0, 2, 1, 1,1, GridBagConstraints.BOTH, GridBagConstraints.LINE_START));
+        listModel.add(bagsButton, constraints(0, 3, 1, 1,1, GridBagConstraints.BOTH, GridBagConstraints.LINE_START));
+        listModel.add(allButton, constraints(0, 4, 1, 1,1, GridBagConstraints.BOTH, GridBagConstraints.LINE_START));
 
         // Action Listener to switch panels
         logout.addActionListener(event -> {
@@ -98,34 +101,55 @@ public class BrowseListings extends JPanel {
 
         // Set up of centered title
         centerTitle.setOpaque(false);
-        centerTitle.add(title, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.CENTER));
+        centerTitle.add(title, constraints(0,0,1,1,0,GridBagConstraints.NONE, GridBagConstraints.CENTER));
 
         // Set up of right most button
-        postPanel.setOpaque(false);
-        postPanel.add(createPost, constraints(0,0,1,1,GridBagConstraints.NONE, GridBagConstraints.EAST));
+        addPostPanel.setOpaque(false);
+        addPostPanel.add(createPost, constraints(0,0,1,1,0, GridBagConstraints.NONE, GridBagConstraints.EAST));
 
         headerPanel.add(centerTitle);
-        headerPanel.add(postPanel);
+        headerPanel.add(addPostPanel);
 
         // Fix the cooked scrolling
         scrollPane.getVerticalScrollBar().setUnitIncrement(25);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
 
-        // Fonts
-        title.setFont(myFont.deriveFont(Font.BOLD, 24));
-        logout.setFont(myFont);
 
-        // add logout to the footerPanel
+
+        // add logout to the footerPanel and give it a weight y
         // footerPanel forces logout to be at the far right even if the cell its in is weirdly sized
-        footerPanel.add(logout, constraints(0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_END));
+        footerPanel.add(logout, constraints(0,0,1,1,0,GridBagConstraints.NONE,GridBagConstraints.LINE_END));
         searchPanel.add(listModel);
 
         // Add everything to the main panel
-        add(headerPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        add(searchPanel, BorderLayout.WEST);
-        add(footerPanel, BorderLayout.SOUTH);
+        // add(headerPanel, BorderLayout.NORTH);
+        // add(scrollPane, BorderLayout.CENTER);
+        // add(searchPanel, BorderLayout.WEST);
+        // add(footerPanel, BorderLayout.SOUTH);
 
+        // Add the header to the top row
+        // Header panel should be wide and be at the top of the page
+        add(headerPanel, constraints(0,0,3,1,0,GridBagConstraints.HORIZONTAL, GridBagConstraints.NORTH));
+
+        // Add the search panel to the left area
+        // Search panel should be long and be at the left of the page
+        add(searchPanel, constraints(0,1,1,0,0,GridBagConstraints.NONE, GridBagConstraints.NORTHWEST));
+
+        // Add the scroll pane below the header (includes the posts)
+        // Should be long and wide
+        // Should be in the center of the page
+        // Must leave room for the footer panel
+        // BOTH means it can expand in both directions
+        add(scrollPane, constraints(1,1,2,1,1,GridBagConstraints.BOTH, GridBagConstraints.CENTER));
+
+        // Add the footer panel to the bottom
+        // Should be wide
+        // Should be at the bottom of the page
+        add(footerPanel, constraints(0,2,3,1,0,GridBagConstraints.BOTH,GridBagConstraints.SOUTH));
+
+        // Fonts
+        title.setFont(myFont.deriveFont(Font.BOLD, 24));
+        logout.setFont(myFont);
 
         // Adding posts
         setPosts(posts);
@@ -159,7 +183,7 @@ public class BrowseListings extends JPanel {
         // If there are no posts, provide feedback. Will also be useful later
         if (posts.isEmpty()) {
             emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            listingsPanel.add(emptyLabel, constraints(0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START));
+            listingsPanel.add(emptyLabel, constraints(0, 0, 1, 1,0, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START));
         } else {
             for (Post post : posts) {
                 // add all the new components. Constraints set on listing earlier forces organization
@@ -178,6 +202,7 @@ public class BrowseListings extends JPanel {
         int row,
         int width,
         float weightx,
+        float weighty,
         int fill,
         int anchor
     ) {
@@ -188,11 +213,25 @@ public class BrowseListings extends JPanel {
         gbc.gridx = column;
         gbc.gridy = row;
         gbc.gridwidth = width;
-        gbc.fill = fill; // determines if and where a component can expand into extra space
         gbc.weightx = weightx; // determines how components share extra space if multiple components can expand into the same space
+        gbc.weighty = weighty; // determines how components share extra vertical space
+        gbc.fill = fill; // determines if and where a component can expand into extra space
         gbc.anchor = anchor; // determines component alignment within its own cell
 
         return gbc;
+    }
+
+    // Helper method to add the + button if the user is an admin
+    public void setAdmin(boolean isAdmin){
+        // avoid adding it twice if somehow its still there
+        addPostPanel.setVisible(isAdmin);
+
+        // Rebuild
+        headerPanel.revalidate();
+        headerPanel.repaint();
+
+        this.revalidate();
+        this.repaint();
     }
 }
 
