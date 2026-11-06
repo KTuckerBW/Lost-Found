@@ -11,13 +11,12 @@ import com.lostandfound.repo.DbPostsRepository;
 import com.lostandfound.repo.DbUserRepository;
 import com.lostandfound.repo.PostRepository;
 import com.lostandfound.repo.UserRepository;
-import com.lostandfound.services.AuthService;
+import com.lostandfound.services.UserService;
 import com.lostandfound.ui.ControllerFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -33,13 +32,13 @@ public class Main {
                 DatabaseInitializer.initialize(db);
                 UserRepository userRepo = new DbUserRepository(db);
                 PostRepository postRepo = new DbPostsRepository(db);
-                AuthService authService = new AuthService(userRepo);
+                UserService userService = new UserService(userRepo);
 
                 // Initialize the posts list by using findAll method
                 List<Post> posts = postRepo.findAll();
 
                 try {
-                    new ControllerFrame(authService, posts);
+                    new ControllerFrame(userService, posts);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
