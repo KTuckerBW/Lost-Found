@@ -1,9 +1,6 @@
 package com.lostandfound;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.lostandfound.auth.CsvUserAuthenticator;
-import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.db.Database;
 import com.lostandfound.db.DatabaseInitializer;
 import com.lostandfound.model.Post;

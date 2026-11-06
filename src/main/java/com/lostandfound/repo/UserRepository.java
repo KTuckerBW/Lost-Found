@@ -35,4 +35,10 @@ public interface UserRepository {
      * returns an empty list otherwise
      */
     List<UserPublic> findAll();
+
+    /**
+     * Deletes a user entry in the system
+     * @param username
+     */
+    void delete(String username);
 }

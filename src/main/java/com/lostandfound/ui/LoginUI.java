@@ -8,7 +8,6 @@ import com.lostandfound.auth.UserAuthenticator;
 import com.lostandfound.model.User;
 import com.lostandfound.ui.CreateAccount;
 import com.lostandfound.services.UserService;
-import com.lostandfound.ui.CreateAccount;
 
 import javax.swing.*;
 import java.awt.event.*;

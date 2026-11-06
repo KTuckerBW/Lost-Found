@@ -1,5 +1,6 @@
 package com.lostandfound.services;
 
+import com.lostandfound.exception.UserNotFoundException;
 import com.lostandfound.model.User;
 import com.lostandfound.repo.UserRepository;
 import com.password4j.Password;
@@ -41,18 +42,44 @@ public class UserService {
         return verified ? repo.findByUsername(username) : null;
     }
 
+    /**
+     * Registers a new user in the system
+     *
+     * @param role
+     * @param username
+     * @param password
+     * @param email
+     * @throws RuntimeException if the user already exists
+     */
     void register(String role, String username, String password, String email){
 
-        // Todo: figure out a way to handle existing user. Maybe return a error to the ui layer
-        if (repo.exists(username)){return;}
-        String hashedPassword = hashPassword(password);
-        User newUser = User.of(
-            role,
-            username,
-            password,
-            email
-        );
-        repo.save(newUser);
+        if (!repo.exists(username)) {
+            String hashedPassword = hashPassword(password);
+            User newUser = User.of(
+                role,
+                username,
+                hashedPassword,
+                email
+            );
+            repo.save(newUser);
+        }else {
+            throw new RuntimeException("User already exists");
+        }
+    }
+
+    /**
+     * Deletes user from system if it exists
+     *
+     * @param username
+     * @throws UserNotFoundException
+     * @throws IllegalArgumentException if username is empty
+     */
+    void delete(String username) throws UserNotFoundException {
+        if (username.isEmpty()){throw new IllegalArgumentException("Username is empty");}
+        if (!repo.exists(username)){throw new UserNotFoundException("User doesn't exist");}
+
+        repo.delete(username);
+
     }
 
     private String hashPassword(String plaintext){

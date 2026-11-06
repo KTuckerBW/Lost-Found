@@ -103,4 +103,18 @@ public class DbUserRepository implements UserRepository {
         }
         return users;
     }
+
+    @Override
+    public void delete(String username){
+
+        String sql = "DELETE FROM Users WHERE username = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
