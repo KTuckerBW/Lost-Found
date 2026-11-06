@@ -185,6 +185,7 @@ public class PostComponent extends JPanel {
         frame.setVisible(true);
     }
   
+
 //    Test main
    public static void main(String[] args) {
        SwingUtilities.invokeLater(PostComponent::test);

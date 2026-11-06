@@ -13,8 +13,10 @@ import java.util.List;
 public class ControllerFrame extends JFrame{
     public final String login = "LOGIN";
     public final String browsing = "BROWSING";
+
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private BrowseListings browsingPanel;
 
     public ControllerFrame(AuthService authService, List<Post> posts) throws IOException{
         // Initialization
@@ -29,7 +31,7 @@ public class ControllerFrame extends JFrame{
         // Passing this instance of the controller frame to the login class so they may talk to each other
         // This initializes an instance of the login screen
         LoginUI loginPanel = new LoginUI(this, authService);
-        BrowseListings browsingPanel = new BrowseListings(this, posts);
+        browsingPanel = new BrowseListings(this, posts);
 
         // Add enter key support
         getRootPane().setDefaultButton(loginPanel.getLoginButton());
@@ -54,7 +56,12 @@ public class ControllerFrame extends JFrame{
         cardLayout.show(mainPanel, login);
     }
 
-    public void showBrowsing(){
+    public void showBrowsing(boolean isAdmin){
+        // Browsing panel must know if user is an admin
+        browsingPanel.setAdmin(isAdmin);
+
+        // Show the screen
         cardLayout.show(mainPanel, browsing);
     }
+
 }
