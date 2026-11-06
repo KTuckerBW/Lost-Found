@@ -39,7 +39,7 @@ public class UserService {
             verified = Password.check(password, hashFromDb).withBcrypt();
         }
 
-        return verified ? repo.findByUsername(username) : null;
+        return verified ? user : null;
     }
 
     /**
